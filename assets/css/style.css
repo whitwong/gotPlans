@@ -1,0 +1,19 @@
+.container {
+	width:100%;
+}
+
+.row {
+	margin:0 auto;
+	text-align:center;
+}
+
+.in, .out, .either {
+	display:inline-block;
+	width:30%;
+	height:250px;
+	text-align:center;
+	vertical-align:middle;
+	margin: 15px;
+	background-color:lightblue;
+	border-radius:10px;
+}
