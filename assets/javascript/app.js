@@ -4,7 +4,6 @@ function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
 	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%'},1000);
     $("#"+userSelect+"-zip").css("visibility", "visible");
-    
 }
 
 $("#in").on("click", function(){
