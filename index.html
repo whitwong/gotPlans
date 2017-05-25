@@ -4,10 +4,12 @@
 	<title>Got Plans?</title>
 	<meta charset="UTF-8">
 
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css">
+	
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css"> -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
@@ -15,34 +17,43 @@
 </head>
 <body>
 
-<div class="container">
+
 
     <!-- Jumbotron for Title -->
    <div class="jumbotron">
       <h1 class="text-center"><strong>Got Plans?</strong></h1>
     </div>
 
-    <div>
-    	<a class=“waves-effect waves-light btn-large”>Button</a>
-		<a class=“waves-effect waves-light btn-large”><i class=“material-icons left”>cloud</i>button</a>
-		<a class=“waves-effect waves-light btn-large”><i class=“material-icons right”>cloud</i>button</a>
-    </div>
-
    <div class="row">
-    	<div class="col-med-4 in">
-    		<h2>Stay In</h2>
+    	<div class="col-med-4" id="in">
+    		<h2 id="in-text">Stay In</h2>
+        <form class="zip-form" id="in-zip">
+          <label for="zip-input">Enter your zip code!</label>
+          <input type="text" id="zip-input">
+          <button id="zip-submit">Submit</button>
+        </form>
     	</div>
 
-    	<div class="col-med-4 out waves-effect waves-light btn-larg">
-    		<h2>Go Out</h2>
+    	<div class="col-med-4" id="out">
+    		<h2 id="out-text">Go Out</h2>
+        <form class="zip-form" id="out-zip">
+          <label for="zip-input">Enter your zip code!</label>
+          <input type="text" id="zip-input">
+          <button id="zip-submit">Submit</button>
+        </form>
     	</div>
 
-    	<div class="col-med-4 either waves-effect waves-light btn-larg">
-    		<h2>I don't care</h2>
+    	<div class="col-med-4" id="either">
+    		<h2 id="either-text">I don't care</h2>
+        <form class="zip-form" id="either-zip">
+          <label for="zip-input">Enter your zip code!</label>
+          <input type="text" id="zip-input">
+          <button id="zip-submit">Submit</button>
+        </form>
     </div>
 
-</div>
-     	
 
+     	
+<script src="assets/javascript/app.js"></script>
 </body>
 </html>
