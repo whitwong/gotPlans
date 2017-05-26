@@ -9,19 +9,26 @@ function chooseBox() {
 }
 
 $("#in").on("click", function(){
+    event.preventDefault();
 	userSelect=$(this).attr("id");
     $("#out, #either").css("visibility", "hidden");
     chooseBox();
 });
 $("#out").on("click", function(){
+    event.preventDefault();
 	userSelect=$(this).attr("id");
     $("#in, #either").css("visibility", "hidden");
     chooseBox();
 });
 $("#either").on("click", function(){
+    event.preventDefault();
 	userSelect=$(this).attr("id");
     $("#out, #in").css("visibility", "hidden");
     chooseBox();
+});
+
+$("#ingredient-submit").on("click", function(){
+    gotPlans.callYummly();
 });
 
 var gotPlans = {
@@ -71,13 +78,34 @@ var gotPlans = {
         //For feeling adventurous under zamato api
     },
     callYummly: function() {
-        var queryItem = "";
-        var queryUrl = "http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&";
+        var queryItem = $("#ingredient-input").val().trim();
+        var queryUrl = "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&your _search_parameters&allowedIngredient[]=";
         $.ajax({
-            url: queryUrl + encodeURIComponent(queryitem),
+            url: queryUrl + encodeURIComponent(queryItem),
             method: "GET"
-        }).done({
-            //whatever
+        }).done(function(response){
+            console.log(response);
+
+            var result=response.matches;
+            var recipeName = "";
+
+            console.log(result[1].recipeName);
+
+
+            for (var i=0; result.length;i++){
+                
+                recipeName=result[i].recipeName;
+                console.log(recipeName);
+                var ingredients=result[i].ingredients;
+                var newRow=
+                    "<table class='table'>" +
+                        "<tr>" +
+                            "<td>"+ recipeName + "</td>" +
+                            "<td>"+ ingredients + "</td>" +
+                        "</tr>" +
+                    "</table>";
+                $("#recipe-results").append(newRow);
+            }
         });
     },
     displayResultSpoon: function(){
