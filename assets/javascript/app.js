@@ -55,8 +55,48 @@ var gotPlans = {
             $("#location_btn").append("<p>Select your location</p>")
         });
     },
-    filterCuisine: function(){
-        
+    filterCuisine: function(cityId){
+        var cuisineOptions = 
+            [
+                {
+                    cuisine_name: "Italian",
+                    cuisine_id: 55
+                },
+                {
+                    cuisine_name: "Chinese",
+                    cuisine_id: 25
+                },
+                {
+                    cuisine_name: "American",
+                    cuisine_id: 1                    
+                },
+                {
+                    cuisine_name: "Mexican",
+                    cuisine_id: 73
+                },
+                {
+                    cuisine_name: "Pizza",
+                    cuisine_id: 82
+                },
+                {
+                    cuisine_name: "Pub Food",
+                    cuisine_id: 93
+                },
+                {
+                    cuisine_name: "Sandwich",
+                    cuisine_id: 304                    
+                },
+                {
+                    cuisine_name: "Vegetarian",
+                    cuisine_id: 308
+                }
+            ]
+            for (var i=0; i<cuisineOptions.length; i++){
+                var cuisineBtn = $("<button>");
+                cuisineBtn.text(cuisineOptions[i].cuisine_name);
+                cuisineBtn.attr("data-type", cuisineOptions[i].cuisine_id);
+                $("#location_btn").append(cuisineBtn);       
+            }
     },
     filterPrice: function(){
 
@@ -110,4 +150,10 @@ $("#submit").on("click", function(event){
     //More filters for Price and Rating --> see example return object to build path
         //price_range
         //user_rating.aggregate_rating
-})
+});
+//City selection
+$("#location_btn").on("click", ".city-select", function(event){
+    event.preventDefault();
+    var cityId = $(this).attr("data-type");
+    gotPlans.filterCuisine(cityId);
+});
