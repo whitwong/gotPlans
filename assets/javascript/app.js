@@ -1,4 +1,5 @@
 var userSelect;
+var queryURL;
 
 function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
@@ -30,10 +31,26 @@ var gotPlans = {
 
     },
     queryCity: function(){
+        //Example of city search: "https://developers.zomato.com/api/v2.1/cities?q=Austin&apikey=0740f7fe7643fb4e802a336372f83206"
+        var apiKey = "0740f7fe7643fb4e802a336372f83206"
+        var city = "Austin"  //$("#city-input"); //or whatever the input value reference is
+        queryURL = "https://developers.zomato.com/api/v2.1/cities?q="+city+"&count=5"+"&apikey="+apiKey;
 
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).done(function(response){
+            console.log(response);
+            var result=response.location_suggestions;
+            for(var i=0; i < result.length; i++){
+                console.log(result[i].name);
+                console.log(result[i].id);
+                $("#location_btn").append(result[i].name);
+            }
+        });
     },
     filterCuisine: function(){
-
+        
     },
     filterPrice: function(){
 
@@ -64,3 +81,23 @@ var gotPlans = {
 
     }
 }
+
+//Go Out Option
+$("#submit").on("click", function(event){
+    event.preventDefault();
+    gotPlans.queryCity();
+    console.log(queryURL);
+    //Create input field for city selection
+    //Create buttons/dropdown/whatever for resulting object array --> take value from input and put into queryURL. AJAX request.
+    //User selection from available cities --> After selection create new variable to hold city_id
+    //Create selections for cuisine (multiple selections?)
+    //User selection from available cuisines --> new variable to hold selected cuisine_id
+        //Example URL: https://developers.zomato.com/api/v2.1/cuisines?city_id=278&apikey=0740f7fe7643fb4e802a336372f83206
+    //Build queryURL using city_id and/or cuisine_id
+        //No cuisine: https://developers.zomato.com/api/v2.1/search?entity_id=278&entity_type=city&apikey=0740f7fe7643fb4e802a336372f83206
+        //Single cuisine: https://developers.zomato.com/api/v2.1/search?entity_id=278&entity_type=city&cuisines=55&apikey=0740f7fe7643fb4e802a336372f83206
+        //Multiple cuisines: https://developers.zomato.com/api/v2.1/search?entity_id=278&entity_type=city&cuisines=55%2C%201&apikey=0740f7fe7643fb4e802a336372f83206
+    //More filters for Price and Rating --> see example return object to build path
+        //price_range
+        //user_rating.aggregate_rating
+})
