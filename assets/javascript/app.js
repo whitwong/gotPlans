@@ -48,6 +48,16 @@ var gotPlans = {
     randomRestaurant: function(){
         //For feeling adventurous under zamato api
     },
+    callYummly: function() {
+        var queryItem = "";
+        var queryUrl = "http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&";
+        $.ajax({
+            url: encodeURIComponent(queryUrl + queryitem),
+            method: "GET"
+        }).done({
+            //whatever
+        });
+    },
     displayResultSpoon: function(){
 
     },
