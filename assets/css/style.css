@@ -26,6 +26,7 @@ h1.text-center {
 	margin: 15px;
 	background-color:#a7e277;
 	border-radius:10px;
+	overflow: auto;
 	
 }
 #in {
@@ -61,4 +62,8 @@ form.zip-form {
 #zip-input{
 	width:200px;
 
+}
+
+.table-row {
+	margin: 5px 0;
 }

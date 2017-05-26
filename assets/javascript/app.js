@@ -88,24 +88,20 @@ var gotPlans = {
 
             var result=response.matches;
             var recipeName = "";
-
+            var table = $("<table class=\"result-table\"></table>")
             console.log(result[1].recipeName);
 
 
-            for (var i=0; result.length;i++){
+            for (var i=0; i < result.length;i++){
                 
                 recipeName=result[i].recipeName;
                 console.log(recipeName);
                 var ingredients=result[i].ingredients;
-                var newRow=
-                    "<table class='table'>" +
-                        "<tr>" +
-                            "<td>"+ recipeName + "</td>" +
-                            "<td>"+ ingredients + "</td>" +
-                        "</tr>" +
-                    "</table>";
-                $("#recipe-results").append(newRow);
+                
+                var newRow="<tr class=\"table-row\"><td>" + recipeName + "</td><td>" + ingredients + "</td></tr>";
+                table.append(newRow)
             }
+            $("#recipe-results").append(table);
         });
     },
     displayResultSpoon: function(){
