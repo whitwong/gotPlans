@@ -122,7 +122,7 @@ var zomato = {
 var yummly = {
         callYummly: function() {
         var queryItem = $("#ingredient-input").val().trim();
-        var queryUrl = "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&your _search_parameters&allowedIngredient[]=";
+        var queryUrl = "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=";
         $.ajax({
             url: queryUrl + encodeURIComponent(queryItem),
             method: "GET"
