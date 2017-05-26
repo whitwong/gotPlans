@@ -1,5 +1,6 @@
 var userSelect;
 var queryURL;
+var city="";
 
 function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
@@ -30,10 +31,10 @@ var gotPlans = {
     coinFlip: function(){
 
     },
-    queryCity: function(){
+    queryCity: function(city){
         //Example of city search: "https://developers.zomato.com/api/v2.1/cities?q=Austin&apikey=0740f7fe7643fb4e802a336372f83206"
         var apiKey = "0740f7fe7643fb4e802a336372f83206"
-        var city = "Austin"  //$("#city-input"); //or whatever the input value reference is
+        //var city = "Austin"  //$("#city-input"); //or whatever the input value reference is
         queryURL = "https://developers.zomato.com/api/v2.1/cities?q="+city+"&count=5"+"&apikey="+apiKey;
 
         $.ajax({
@@ -41,12 +42,17 @@ var gotPlans = {
             method: "GET"
         }).done(function(response){
             console.log(response);
+            $("#location_btn").empty();
             var result=response.location_suggestions;
             for(var i=0; i < result.length; i++){
-                console.log(result[i].name);
-                console.log(result[i].id);
-                $("#location_btn").append(result[i].name);
+                //create buttons based on city selected and append city id into a data-type
+                var locationbtn = $("<button>");
+                locationbtn.attr("data-type", result[i].id);
+                locationbtn.text(result[i].name);
+                locationbtn.addClass("city-select");
+                $("#location_btn").append(locationbtn);
             }
+            $("#location_btn").append("<p>Select your location</p>")
         });
     },
     filterCuisine: function(){
@@ -85,7 +91,11 @@ var gotPlans = {
 //Go Out Option
 $("#submit").on("click", function(event){
     event.preventDefault();
-    gotPlans.queryCity();
+
+    city = $("#city-input").val().trim();
+    gotPlans.queryCity(city);
+    $("#city-input").val('');
+
     console.log(queryURL);
     //Create input field for city selection
     //Create buttons/dropdown/whatever for resulting object array --> take value from input and put into queryURL. AJAX request.
