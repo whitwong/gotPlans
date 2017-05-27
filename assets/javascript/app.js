@@ -4,7 +4,7 @@ var city="";
 
 function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
-	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%', 'height' : '800px'},1000, function(){
+	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%', 'height' : '1000px'},1000, function(){
         $("#"+userSelect+"-zip").css("visibility", "visible");
     });
     
@@ -30,6 +30,7 @@ $("#either").on("click", function(){
 });
 
 $("#ingredient-submit").on("click", function(){
+    $("#recipe-results").empty();
     yummly.callYummly();
 });
 
@@ -132,19 +133,28 @@ var yummly = {
             console.log(response);
 
             var result=response.matches;
-            var recipeName = "";
-            var table = $("<table class=\"result-table\"></table>")
-            console.log(result[1].recipeName);
+            var table = $("<table class=\"table result-table\">" + 
+                    "<tr>" +
+                        "<th>" + "Image" + "</th>" +
+                        "<th>" + "Recipe Name" + "</th>" +
+                        "<th>" + "Ingredients" + "</th>" +
+                        "<th>" + "Directions" + "</th>" +
+                    "</tr>" +
+                "</table>");
+            // console.log(result[1].recipeName);
 
 
             for (var i=0; i < result.length;i++){
-                
-                recipeName=result[i].recipeName;
-                console.log(recipeName);
+
+                var recipeId="http://www.yummly.com/recipe/" + result[i].id;
+                var recipeName=result[i].recipeName;
+                var recipeImage=result[i].smallImageUrls[0];
+
+                console.log(recipeImage);
                 var ingredients=result[i].ingredients;
                 
-                var newRow="<tr class=\"table-row\"><td>" + recipeName + "</td><td>" + ingredients + "</td></tr>";
-                table.append(newRow)
+                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td>" + recipeName + "</td><td>" + ingredients + "</td><td><a href='"+recipeId+"'>"+"Get Directions!"+ "</a></td></tr>";
+                table.append(newRow);
             }
             $("#recipe-results").append(table);
         });
@@ -156,7 +166,7 @@ $("#submit").on("click", function(event){
     event.preventDefault();
 
     city = $("#city-input").val().trim();
-    gotPlans.queryCity(city);
+    zomato.queryCity(city);
     $("#city-input").val('');
 
     console.log(queryURL);
@@ -178,5 +188,5 @@ $("#submit").on("click", function(event){
 $("#location_btn").on("click", ".city-select", function(event){
     event.preventDefault();
     var cityId = $(this).attr("data-type");
-    gotPlans.filterCuisine(cityId);
+    zomato.filterCuisine(cityId);
 });
