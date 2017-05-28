@@ -1,6 +1,6 @@
 var userSelect;
 //Global variables for Zomato functions
-var queryURL, city="", cityId, cuisineId, apiKey = "0740f7fe7643fb4e802a336372f83206";
+var queryURL, city="", cityId, cuisineId, apiKey = "0740f7fe7643fb4e802a336372f83206", newQueryURL;
 
 function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
@@ -29,7 +29,7 @@ $("#either").on("click", function(){
     chooseBox();
 });
 
-$("#ingredient-city-submit").on("click", function(){
+$("#ingredient-submit").on("click", function(){
     yummly.callYummly();
 });
 
@@ -114,7 +114,7 @@ var zomato = {
         //Clear returned results when new cuisine selection is chosen
         $("#option-results").html("");
         //Build new query URL with city and cuisine ID's
-        var newQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&cuisines="+cuisineId+"&apikey="+apiKey;
+        newQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&cuisines="+cuisineId+"&apikey="+apiKey;
         //Ajax request for restaurant data
         $.ajax({
             url: newQueryURL,
@@ -122,7 +122,9 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th>Restaurant</th><th>Price Range</th><th>Rating</th></tr></thead>");
+            resultTable.append("<thead><tr><th>Restaurant</th>"+
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -135,13 +137,67 @@ var zomato = {
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
             }
-        })
+        });
     },
-    filterPrice: function(){
-
+    sortPrice: function(){
+        //Clear returned results when new cuisine selection is chosen
+        $("#option-results").html("");
+        //Build new query URL with price sort option
+        priceURL = newQueryURL+"&sort=cost&order=desc";
+        //Ajax request for restaurant data
+        $.ajax({
+            url: priceURL,
+            method: "GET"
+        }).done(function(response){
+            //Dynamically create table
+            console.log(priceURL);
+            var resultTable = $("<table class='table'>");
+            resultTable.append("<thead><tr><th>Restaurant</th>"+
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<tbody>");
+            $("#option-results").append(resultTable);
+            //Add restaurant results as a new row to the table
+            var results=response.restaurants;
+            for (var i=0; i<results.length; i++){
+                console.log(results[i].restaurant.name);
+                var optionResults = $("<tr>");
+                optionResults.append("<td>"+results[i].restaurant.name+"</td>");
+                optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
+                optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
+                resultTable.append(optionResults);
+            }
+        });
     },
-    filterRating: function(){
-
+    sortRating: function(){
+        //Clear returned results when new cuisine selection is chosen
+        $("#option-results").html("");
+        //Build new query URL with rating sort option
+        ratingURL = newQueryURL+"&sort=rating&order=desc";
+        //Ajax request for restaurant data
+        $.ajax({
+            url: ratingURL,
+            method: "GET"
+        }).done(function(response){
+            //Dynamically create table
+            console.log(priceURL);
+            var resultTable = $("<table class='table'>");
+            resultTable.append("<thead><tr><th>Restaurant</th>"+
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<tbody>");
+            $("#option-results").append(resultTable);
+            //Add restaurant results as a new row to the table
+            var results=response.restaurants;
+            for (var i=0; i<results.length; i++){
+                console.log(results[i].restaurant.name);
+                var optionResults = $("<tr>");
+                optionResults.append("<td>"+results[i].restaurant.name+"</td>");
+                optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
+                optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
+                resultTable.append(optionResults);
+            }
+        });
     },
     displayResultZomato: function(){
 
@@ -202,4 +258,14 @@ $("#cuisine-results").on("click", ".cuisine-select", function(event){
     event.preventDefault();
     cuisineId = $(this).attr("data-type");
     zomato.filterCuisine();
+});
+//Sort by price
+$("#option-results").on("click", ".sort-price", function(event){
+    event.preventDefault();
+    zomato.sortPrice();
+});
+//Sort by rating
+$("#option-results").on("click", ".sort-rating", function(event){
+    event.preventDefault();
+    zomato.sortRating();
 });
