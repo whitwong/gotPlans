@@ -1,4 +1,5 @@
 var userSelect;
+var yummlyMatches = "";
 //Global variables for Zomato functions
 var queryURL, city="", cityId, cuisineId, apiKey = "0740f7fe7643fb4e802a336372f83206", newQueryURL;
 
@@ -209,7 +210,21 @@ var zomato = {
 }
 
 var yummly = {
-        callYummly: function() {
+    getRecipeLink: function() {
+        for (var i = 0; i < yummlyMatches.length; i ++) {
+            (function(i) {
+                var queryUrl = "http://api.yummly.com/v1/api/recipe/"+ encodeURIComponent(yummlyMatches[i].id) + "?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25";
+                $.ajax({
+                    url: queryUrl,
+                    method: "GET"
+                }).done(function(response){
+                    $("#recipe-" + i).attr("href", response.source.sourceRecipeUrl);
+                    console.log(response.source.sourceRecipeUrl);
+                })
+            })(i);
+        }
+    },
+    callYummly: function() {
         var queryItem = $("#ingredient-input").val().trim();
         var queryUrl = "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=";
         $.ajax({
@@ -219,6 +234,9 @@ var yummly = {
             console.log(response);
 
             var result=response.matches;
+            yummlyMatches = response.matches;
+            var recipeName = "";
+
             var table = $("<table class=\"table result-table\">" + 
                     "<tr>" +
                         "<th>" + "Image" + "</th>" +
@@ -239,10 +257,12 @@ var yummly = {
                 console.log(recipeImage);
                 var ingredients=result[i].ingredients;
                 
-                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td>" + recipeName + "</td><td>" + ingredients + "</td><td><a href='"+recipeId+"'>"+"Get Directions!"+ "</a></td></tr>";
+
+                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><a href='"+recipeId+"'>"+"Get Directions!"+ "</a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
+            yummly.getRecipeLink();
         });
     }
 }
