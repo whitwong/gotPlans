@@ -240,6 +240,7 @@ var yummly = {
         }).done(function(response){
             //console.log(response);
 
+
             var result=response.matches;
             yummlyMatches = response.matches;
             var recipeName = "";
@@ -251,6 +252,7 @@ var yummly = {
                         "<th>" + "Ingredients" + "</th>" +
                     "</tr>" +
                 "</table>");
+
 
             for (var i=0; i < result.length;i++){
 
