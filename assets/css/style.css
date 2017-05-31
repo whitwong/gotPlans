@@ -86,3 +86,38 @@ form.zip-form {
 .table>tbody>tr>th {
 	border-top:none;
 }
+
+/************Materialize Styles************/
+#ingredient-submit, #city-submit {
+	outline: transparent;
+}
+.row .col.s8 {
+  width: 66.6666666667%;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+}
+.input-field label {
+  color: white;
+}
+input[type=text] {
+	color: white;
+	text-align: center;
+	font-size: 2rem;
+}
+.chip {
+	border: none;
+}
+
+/************Go Out Styles************/
+#location-results {
+	margin-top: 20px;
+}
+.rest-image {
+	width: 90px;
+	height: 60px;
+}
+.sort-price:hover, .sort-rating:hover {
+	color: #ccc;
+	cursor: pointer;
+}

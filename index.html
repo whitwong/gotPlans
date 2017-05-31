@@ -3,24 +3,18 @@
 <head>
 	<title>Got Plans?</title>
 	<meta charset="UTF-8">
-
-
-    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+  <!--Stylesheets: Bootstrap, Materialize, Local-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-	
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css"> -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-<!-- 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css"> -->
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <!--Supplementary style links-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+  <!--Script tags for javascript/jquery libraries-->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 </head>
 <body>
 
@@ -36,9 +30,15 @@
     	<div class="col-med-4 clearfix" id="in">
     		<h2 id="in-text">Stay In</h2>
         <form class="zip-form" id="in-zip">
-          <label for="ingredient-input">What's in your fridge?</label>
-          <input type="text" id="ingredient-input">
-          <button id="ingredient-submit">Submit</button>
+          <div class="row">
+            <div class="input-field col s8">
+              <label for="ingredient-input">What's in your fridge?</label>
+              <input type="text" id="ingredient-input">
+              <button id="ingredient-submit" class="btn waves-effect waves-light" type="submit">Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
         </form>
         <div id="recipe-results"></div>
     	</div>
@@ -46,9 +46,15 @@
     	<div class="col-med-4" id="out">
     		<h2 id="out-text">Go Out</h2>
         <form class="zip-form" id="out-zip">
-          <label for="city-input">Enter your city!</label>
-          <input type="text" id="city-input">
-          <button id="city-submit">Submit</button>
+          <div class="row">
+            <div class="input-field col s8">
+              <label for="city-input">Enter your city!</label>
+              <input type="text" id="city-input">
+              <button id="city-submit" class="btn waves-effect waves-light" type="submit">Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
         </form>
         <div id="location-results"></div>
         <div id="cuisine-results"></div>
