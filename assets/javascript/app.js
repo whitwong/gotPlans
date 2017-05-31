@@ -68,7 +68,7 @@ var zomato = {
                 var locationbtn = $("<button>");
                 locationbtn.attr("data-type", result[i].id);
                 locationbtn.text(result[i].name);
-                locationbtn.addClass("city-select");
+                locationbtn.addClass("city-select chip waves-effect waves-light");
                 $("#location-results").append(locationbtn);
             }
             $("#location-results").append("<p>Select your location</p>");
@@ -118,7 +118,7 @@ var zomato = {
                 var cuisineBtn = $("<button>");
                 cuisineBtn.text(cuisineOptions[i].cuisine_name);
                 cuisineBtn.attr("data-type", cuisineOptions[i].cuisine_id);
-                cuisineBtn.addClass("cuisine-select");
+                cuisineBtn.addClass("cuisine-select chip waves-effect waves-light");
                 $("#cuisine-results").append(cuisineBtn);
             }
         $("#cuisine-results").append("<p>Select your cuisine</p>")
@@ -135,7 +135,8 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th>Restaurant</th>"+
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
                 "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
@@ -144,7 +145,8 @@ var zomato = {
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
-                optionResults.append("<td>"+results[i].restaurant.name+"</td>");
+                optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
@@ -163,7 +165,8 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th>Restaurant</th>"+
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
                 "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
@@ -172,7 +175,8 @@ var zomato = {
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
-                optionResults.append("<td>"+results[i].restaurant.name+"</td>");
+                optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
@@ -191,7 +195,8 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th>Restaurant</th>"+
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
                 "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
@@ -200,7 +205,8 @@ var zomato = {
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
-                optionResults.append("<td>"+results[i].restaurant.name+"</td>");
+                optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
@@ -238,7 +244,7 @@ var yummly = {
             url: queryUrl + encodeURIComponent(queryItem),
             method: "GET"
         }).done(function(response){
-            //console.log(response);
+            console.log(response);
 
 
             var result=response.matches;
@@ -273,7 +279,8 @@ var yummly = {
     }
 }
 
-//Go Out Option
+/*************Zomato Function Calls*************/
+//City input and submission
 $("#city-submit").on("click", function(event){
     event.preventDefault();
     city = $("#city-input").val().trim();
@@ -297,4 +304,8 @@ $("#option-results").on("click", ".sort-price", function(){
 //Sort by rating
 $("#option-results").on("click", ".sort-rating", function(){
     zomato.sortRating();
+});
+//Click event for Restaurant Overview selection
+$("#option-results").on("click", "a.rest-overview", function(){
+    window.open(this.href);
 });
