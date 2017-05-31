@@ -240,6 +240,7 @@ var yummly = {
         }).done(function(response){
             //console.log(response);
 
+
             var result=response.matches;
             yummlyMatches = response.matches;
             var recipeName = "";
@@ -249,10 +250,8 @@ var yummly = {
                         "<th>" + "Image" + "</th>" +
                         "<th>" + "Recipe Name" + "</th>" +
                         "<th>" + "Ingredients" + "</th>" +
-                        "<th>" + "Directions" + "</th>" +
                     "</tr>" +
                 "</table>");
-            // console.log(result[1].recipeName);
 
 
             for (var i=0; i < result.length;i++){
@@ -265,7 +264,7 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><a href='"+recipeId+"' target='_blank' class='directions'>"+"Get Directions!"+ "</a></td></tr>";
+                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);

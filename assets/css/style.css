@@ -3,7 +3,10 @@
 	color:white;
 	font-family: 'Passion One', cursive;
 	padding:1px;
+}
 
+a:hover {
+	text-decoration:none;
 }
 
 h1.text-center {
@@ -16,6 +19,7 @@ h1.text-center {
 	margin:0 auto;
 	text-align:center;
 	position:relative;
+
 }
 
 #in, #out, #either {
@@ -26,7 +30,7 @@ h1.text-center {
 	margin: 15px;
 	background-color:#a7e277;
 	border-radius:10px;
-	overflow: auto;
+	overflow: hidden;
 	
 }
 #in {
