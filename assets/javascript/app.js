@@ -11,6 +11,18 @@ function chooseBox() {
     
 }
 
+$("#login").on("click",function(){
+    event.preventDefault();
+    $("#modal1").css("visibility", "visible");
+});
+
+$("#newUser").on("click",function(){
+    event.preventDefault();
+    $("#modal2").css("visibility", "visible");
+});
+
+
+
 $("#in").on("click", function(){
     event.preventDefault();
 	userSelect=$(this).attr("id");
