@@ -23,6 +23,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     $("#welcome").show();
     $("#login").hide();
     $("#newUser").hide();
+    $("#logout").show();
+    $("#favs").show();
     // ...
   } else {
     $("#welcome").hide();
@@ -45,7 +47,7 @@ var dataMethods = {
         // [END_EXCLUDE]
       });
     },
-    signIn: function(email, password) {
+    logIn: function(email, password) {
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -58,6 +60,14 @@ var dataMethods = {
         }
         console.log(error);
         // [END_EXCLUDE]
+        });
+    },
+    logOut: function() {
+        firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        }).catch(function(error) {
+        // An error happened.
+            console.log(error);
         });
     }
 }
@@ -442,7 +452,7 @@ $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
     var pwd = $("#password1").val()
 
-    dataMethods.signIn(email, pwd);
+    dataMethods.logIn(email, pwd);
 });
 
 $("#submitNewUser").on("click", function() {
@@ -456,3 +466,7 @@ $("#submitNewUser").on("click", function() {
         $("#sign-up-err").text("Your passwords do not match. Please correct and submit again.")
     }
 });
+
+$("#logout").on("click", function(){
+    dataMethods.logOut();
+})
