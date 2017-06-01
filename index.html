@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
   <!--Script tags for javascript/jquery libraries-->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 </head>
@@ -22,25 +22,27 @@
   <a href="index.html">
     <div class="jumbotron">
         <h1 class="text-center"><strong>Got Plans?</strong></h1>
-        <button class="btn waves-effect waves-light" id="login"> Log In</button>
-        <button class="btn waves-effect waves-light" id="newUser">New User</button>
+        <div class="text-center" id="welcome"></div>
+        <button class="btn waves-effect waves-light" id="login">Log In</button>
+        <button class="btn waves-effect waves-light" id="logout">Log Out</button>
+        <button class="btn waves-effect waves-light" id="newUser">Sign Up</button>
+        <button class="btn waves-effect waves-light" id="favs">View Favorites</button>
     </div>
   </a>
 
   <div id="modal1">
-    <form>
       <h3>gotPlans?</h3>
+      <div class="error-text" id="sign-in-err"></div>
       <label for="email1">Email</label>
       <input type="text" id="email1">
       <label for="password1">Password</label>
       <input type="text" id="password1">
       <button class="btn waves-effect waves-light" id="submitLogin1"> Submit</button>
-    </form>
   </div>
 
   <div id="modal2">
-    <form>
       <h3>gotPlans?</h3>
+      <div class="error-text" id="sign-up-err"></div>
       <label for="email2">Email</label><br>
       <input type="text" id="email2">
       <label for="password2">Enter a Password</label><br>
@@ -48,7 +50,6 @@
       <label for="passwordCheck">Re-type your Password</label><br>
       <input type="text" id="passwordCheck">
       <button class="btn waves-effect waves-light" id="submitNewUser"> Submit</button>
-    </form>
   </div>
 
 
