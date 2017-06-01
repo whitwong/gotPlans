@@ -1,3 +1,67 @@
+// Initialize Firebase
+var config = {
+apiKey: "AIzaSyCg6X-cWnRuKUkmwDccwLrA84wLBqMVTWU",
+authDomain: "gotplans-41912.firebaseapp.com",
+databaseURL: "https://gotplans-41912.firebaseio.com",
+projectId: "gotplans-41912",
+storageBucket: "gotplans-41912.appspot.com",
+messagingSenderId: "300963811676"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var uid = user.uid;
+    var providerData = user.providerData;
+
+    $("#welcome").html("<h3>Hello " + displayName + "!</h3>");
+    $("#welcome").show();
+    $("#login").hide();
+    $("#newUser").hide();
+    // ...
+  } else {
+    $("#welcome").hide();
+  }
+});
+
+var dataMethods = {
+    signUp: function(email, pwd) {
+        firebase.auth().createUserWithEmailAndPassword(email, pwd).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+          $("#sign-up-err").val('The password is too weak.');
+        } else {
+          $("#sign-up-err").val(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+    },
+    signIn: function(email, password) {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/wrong-password') {
+            $("#sign-in-err").val('Wrong password.');
+        } else {
+            $("#sign-in-err").val(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+        });
+    }
+}
+
 var userSelect;
 var yummlyMatches = "";
 //Global variables for Zomato functions
@@ -320,4 +384,23 @@ $("#option-results").on("click", ".sort-rating", function(){
 //Click event for Restaurant Overview selection
 $("#option-results").on("click", "a.rest-overview", function(){
     window.open(this.href);
+});
+
+$("#submitLogin1").on("click", function() {
+    var email = $("#email1").val();
+    var pwd = $("#password1").val()
+
+    dataMethods.signIn(email, pwd);
+});
+
+$("#submitNewUser").on("click", function() {
+    var email = $("#email2").val();
+    var pwd = $("#password2").val();
+    var pwdCheck = $("#passwordCheck").val();
+
+    if(pwd === pwdCheck) {
+        dataMethods.signUp(email, pwd);
+    } else {
+        $("#sign-up-err").text("Your passwords do not match. Please correct and submit again.")
+    }
 });
