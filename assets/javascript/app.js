@@ -368,7 +368,7 @@ $("#zip-submit").on("click", function() {
     zomato.coinFlip();
 
 });
-//grab cityId based on user choice
+
 $("#either-divTwo").on("click", ".city-select", function(){
     cityId = $(this).attr("data-type");
     zomato.randomRestaurant(cityId);
