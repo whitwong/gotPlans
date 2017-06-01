@@ -122,6 +122,19 @@ var zomato = {
         //whatever
     },
     coinFlip: function(){
+        
+        var randomNumber = Math.round(Math.random());
+
+        if (randomNumber === 0) {
+            $("either-div").empty();
+            $("#either-div").append("<p>Eat Out!</p>");
+            zomato.queryCity(cityName);
+        } else {
+            $("either-div").empty();
+            $("#either-div").append("<p>Stay In!</p>");
+        }
+
+
 
     },
     queryCity: function(city){
@@ -146,6 +159,7 @@ var zomato = {
                 locationbtn.text(result[i].name);
                 locationbtn.addClass("city-select chip waves-effect waves-light");
                 $("#location-results").append(locationbtn);
+                $("#either-divTwo").append(locationbtn);
             }
             $("#location-results").append("<p>Select your location</p>");
         });
@@ -292,8 +306,33 @@ var zomato = {
     displayResultZomato: function(){
 
     },
-    randomRestaurant: function(){
-        //For feeling adventurous under zamato api
+    //pick a random restaurant from an ajax call based on cityId
+    randomRestaurant: function(cityId){
+        randomQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&apikey="+apiKey;
+        //Ajax request for restaurant data
+        $.ajax({
+            url: randomQueryURL,
+            method: "GET"
+        }).done(function(response){
+            //Dynamically create table
+            var resultTable = $("<table class='table'>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<tbody>");
+            $("#either-divThree").append(resultTable);
+            //Add restaurant results as a new row to the table
+            var results=response.restaurants;
+            var randomRestaurantNumber = Math.floor(Math.random()*results.length);
+                var optionResults = $("<tr>");
+                optionResults.append("<td><img class='rest-image' src='"+results[randomRestaurantNumber].restaurant.thumb+"'></td>"); 
+                optionResults.append("<td><a class='rest-overview' href='"+results[randomRestaurantNumber].restaurant.url+"''>"+results[randomRestaurantNumber].restaurant.name+"</a></td>");
+                optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.price_range+"</td>");
+                optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.user_rating.aggregate_rating+"</td>");
+                resultTable.append(optionResults);
+        });
+        
     }
 }
 
@@ -384,6 +423,19 @@ $("#option-results").on("click", ".sort-rating", function(){
 //Click event for Restaurant Overview selection
 $("#option-results").on("click", "a.rest-overview", function(){
     window.open(this.href);
+});
+
+//Grab user input
+$("#zip-submit").on("click", function() {
+    event.preventDefault();
+    cityName = $("#zip-input").val().trim();
+    zomato.coinFlip();
+
+});
+
+$("#either-divTwo").on("click", ".city-select", function(){
+    cityId = $(this).attr("data-type");
+    zomato.randomRestaurant(cityId);
 });
 
 $("#submitLogin1").on("click", function() {
