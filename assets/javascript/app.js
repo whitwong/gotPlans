@@ -129,6 +129,11 @@ $("#recipe-results").on("click", "a.directions", function(){
     window.open(this.href);
 });
 
+$("#either-divTwo").on("click", "a.directions", function(){
+    window.open(this.href);
+});
+
+
 var zomato = {
     lookupUser: function(){
         //whatever
@@ -145,7 +150,7 @@ var zomato = {
         } else {
             $("either-div").empty();
             $("#either-div").append("<p>Stay In!</p>");
-
+            yummly.randomRecipe();
         }
 
 
@@ -412,6 +417,51 @@ var yummly = {
             $("#recipe-results").append(table);
             yummly.getRecipeLink();
         });
+    },
+    randomRecipe: function(){
+        var ingredients = ["chicken", "pasta", "butter", "tomato", "feta", "olives", "lettuce", "apple", "milk", "carrot", "cracker", "steak", "salmon", "turkey", "tofu", "sour cream", "eggs", "spinach", "chedar cheese", "almonds", "onion", "green beans", "squash", "potato", "cauliflower", "broth", "mushrooms", "salsa", "hashbrowns", "bread", "raisins", "quinoa", "brown rice", "bell pepper", "banana", "bok choy", "soy sauce", "tortilla chips"];
+
+        var randomIngredient = ingredients[Math.floor(Math.random() * ingredients.length)];
+        
+        $.ajax({
+            url: "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=" + encodeURIComponent(randomIngredient),
+            method: "GET"
+        }).done(function(response){
+            console.log(response);
+
+            var result=response.matches;
+            yummlyMatches = response.matches;
+            var recipeName = "";
+
+            var table = $("<table class=\"table result-table\">" + 
+                    "<tr>" +
+                        "<th>" + "Image" + "</th>" +
+                        "<th>" + "Recipe Name" + "</th>" +
+                        "<th>" + "Ingredients" + "</th>" +
+                    "</tr>" +
+                "</table>");
+
+            $("#either-divTwo").append("<p>Try one of these recipes!</p>");
+            for (var i=0; i < result.length; i++){
+
+                var recipeId="http://www.yummly.com/recipe/" + result[i].id;
+                console.log(recipeId);
+                var recipeName=result[i].recipeName;
+                var recipeImage=result[i].smallImageUrls[0];
+
+                //console.log(recipeImage);
+                var ingredients=result[i].ingredients;
+                
+
+                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td></tr>";
+                table.append(newRow);
+            }
+            $("#either-divTwo").append(table);
+            yummly.getRecipeLink();
+        });
+
+
+
     }
 }
 
@@ -462,6 +512,10 @@ $("#either-divTwo").on("click", ".city-select", function(){
 $("#either-divThree").on("click", ".reset", function() {
     zomato.randomRestaurant(cityId);
 })
+
+$("#either-divThree").on("click", "a.rest-overview", function(){
+    window.open(this.href);
+});
 
 $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
