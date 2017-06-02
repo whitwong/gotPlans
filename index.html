@@ -1,125 +1,118 @@
 <!DOCTYPE html>
 <html lang="us-en">
+
 <head>
-	<title>Got Plans?</title>
-	<meta charset="UTF-8">
-  <!--Stylesheets: Bootstrap, Materialize, Local-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-  <!--Supplementary style links-->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Passion+One|Convergence|Josefin+Sans" rel="stylesheet">
-  <!--Script tags for javascript/jquery libraries-->
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
-  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <title>Got Plans?</title>
+    <meta charset="UTF-8">
+    <!--Stylesheets: Bootstrap, Materialize, Local-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--Supplementary style links-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Passion+One|Convergence|Josefin+Sans" rel="stylesheet">
+    <!--Script tags for javascript/jquery libraries-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 </head>
+
 <body>
-
-
-
-   <nav>
-    <div class="nav-wrapper">
-      <a href="index.html" class="navbar-brand"><img class="img-responsive2" src="assets/images/logo.png"></a>      
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a id="login">Log In</a></li>
-        <li><a id="logout">Log Out</a></li>
-        <li><a id="newUser">Sign Up</a></li>
-        <li><a id="favs">View Favorites</a></li>
-      </ul>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="index.html" class="navbar-brand"><img class="img-responsive2" src="assets/images/logo.png"></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a id="login">Log In</a></li>
+                <li><a id="logout">Log Out</a></li>
+                <li><a id="newUser">Sign Up</a></li>
+                <li><a id="favs">View Favorites</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="headbanner">
+        <h1>Got Plans?</h1>
+        <p class="subhead">choose a card</p>
     </div>
-  </nav>
-        
-  
-  <div class="headbanner">
-  
-    <h1>Got Plans?</h1>
-    <p class="subhead">choose a card</p>
-
-  </div>
-
-
-
-
-  <div id="modal1">
-      <h3>gotPlans?</h3>
-      <div class="error-text" id="sign-in-err"></div>
-      <label for="email1">Email</label>
-      <input type="text" id="email1">
-      <label for="password1">Password</label>
-      <input type="password" id="password1">
-      <button class="btn waves-effect waves-light" id="submitLogin1"> Submit</button>
-  </div>
-
-  <div id="modal2">
-      <h3>gotPlans?</h3>
-      <div class="error-text" id="sign-up-err"></div>
-      <label for="email2">Email</label><br>
-      <input type="text" id="email2">
-      <label for="password2">Enter a Password</label><br>
-      <input type="password" id="password2">
-      <label for="passwordCheck">Re-type your Password</label><br>
-      <input type="password" id="passwordCheck">
-      <button class="btn waves-effect waves-light" id="submitNewUser"> Submit</button>
-  </div>
-
-
-   <div class="row">
-    	<div class="col-med-4 clearfix" id="in">
-    		<h2 id="in-text">Stay In</h2>
-        <form class="zip-form" id="in-zip">
-          <div class="row">
-            <div class="input-field col s8">
-              <label for="ingredient-input">What's in your fridge?</label>
-              <input type="text" id="ingredient-input">
-              <button id="ingredient-submit" class="btn waves-effect waves-light" type="submit">Submit
-                <i class="material-icons right">send</i>
-              </button>
-            </div>
-          </div>
-        </form>
-        <div id="recipe-results"></div>
-    	</div>
-
-    	<div class="col-med-4" id="out">
-    		<h2 id="out-text">Go Out</h2>
-        <form class="zip-form" id="out-zip">
-          <div class="row">
-            <div class="input-field col s8">
-              <label for="city-input">Enter your city!</label>
-              <input type="text" id="city-input">
-              <button id="city-submit" class="btn waves-effect waves-light" type="submit">Submit
-                <i class="material-icons right">send</i>
-              </button>
-            </div>
-          </div>
-        </form>
-        <div id="location-results"></div>
-        <div id="cuisine-results"></div>
-        <div id="option-results"></div>
-    	</div>
-
-    	<div class="col-med-4" id="either">
-    		<h2 id="either-text">Surprise Me</h2>
-        <form class="zip-form" id="either-zip">
-          <div class="row">
-            <div class="input-field col s8">
-              <label for="zip-input">Enter your city!</label>
-              <input type="text" id="zip-input">
-              <button id="zip-submit" class="btn waves-effect waves-light" type="submit">Submit
-                <i class="material-icons right">send</i>
-              </button>
-            </div>
-          </div>
-        </form>
-        <div id="either-div"></div>
-        <div id="either-divTwo"></div>
-        <div id="either-divThree"></div>
+    <div id="modal1">
+        <h3>gotPlans?</h3>
+        <div class="error-text" id="sign-in-err"></div>
+        <label for="email1">Email</label>
+        <input type="text" id="email1">
+        <label for="password1">Password</label>
+        <input type="password" id="password1">
+        <button class="btn waves-effect waves-light" id="submitLogin1"> Submit</button>
     </div>
-
-
-     	
-<script src="assets/javascript/app.js"></script>
+    <div id="modal2">
+        <h3>gotPlans?</h3>
+        <div class="error-text" id="sign-up-err"></div>
+        <label for="email2">Email</label>
+        <br>
+        <input type="text" id="email2">
+        <label for="password2">Enter a Password</label>
+        <br>
+        <input type="password" id="password2">
+        <label for="passwordCheck">Re-type your Password</label>
+        <br>
+        <input type="password" id="passwordCheck">
+        <button class="btn waves-effect waves-light" id="submitNewUser"> Submit</button>
+    </div>
+    <div class="row">
+        <div class="col-med-4 clearfix" id="in">
+            <h2 id="in-text">Stay In</h2>
+            <form class="zip-form" id="in-zip">
+                <div class="row">
+                    <div class="input-field col s8">
+                        <label for="ingredient-input">What's in your fridge?</label>
+                        <input type="text" id="ingredient-input">
+                        <button id="ingredient-submit" class="btn waves-effect waves-light" type="submit">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                        <button id="favesInBtn" class="btn waves-effect waves-light" type="button">Favorites
+                            <span class="glyphicon glyphicon-heart"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div id="recipe-results"></div>
+        </div>
+        <div class="col-med-4" id="out">
+            <h2 id="out-text">Go Out</h2>
+            <form class="zip-form" id="out-zip">
+                <div class="row">
+                    <div class="input-field col s8">
+                        <label for="city-input">Enter your city!</label>
+                        <input type="text" id="city-input">
+                        <button id="city-submit" class="btn waves-effect waves-light" type="submit">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                        <button id="favesInBtn" class="btn waves-effect waves-light" type="button">Favorites
+                            <span class="glyphicon glyphicon-heart"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div id="location-results"></div>
+            <div id="cuisine-results"></div>
+            <div id="option-results"></div>
+        </div>
+        <div class="col-med-4" id="either">
+            <h2 id="either-text">Surprise Me</h2>
+            <form class="zip-form" id="either-zip">
+                <div class="row">
+                    <div class="input-field col s8">
+                        <label for="zip-input">Enter your city!</label>
+                        <input type="text" id="zip-input">
+                        <button id="zip-submit" class="btn waves-effect waves-light" type="submit">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div id="either-div"></div>
+            <div id="either-divTwo"></div>
+            <div id="either-divThree"></div>
+        </div>
+        <script src="assets/javascript/app.js"></script>
 </body>
+
 </html>
