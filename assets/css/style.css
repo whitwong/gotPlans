@@ -1,20 +1,43 @@
-.jumbotron {
-	background:#78c8e2;
-	color:white;
-	font-family: 'Passion One', cursive;
-	padding:10px;
-	text-align: center;
+body {
+    background-image:url("../images/background.png");
 }
 
+.nav-wrapper{
+    background-color: #228765;
+    font-size: 40px;
+    font-family: "Calibri";
+  
+}
+
+ .headbanner {
+     
+     padding: 50px;
+     margin-top: -30px; 
+     
+ }
 a:hover {
 	text-decoration:none;
 }
 
-h1.text-center {
-    font-size: 6em;
-    letter-spacing:5px;
-    margin: 10px auto;
-}
+
+ h1 {
+    font-family: 'Convergence', sans-serif;
+     text-align: center;
+     font-size: 6em;
+     color: white;
+     margin-top: 05px;
+    padding: 10px;
+
+ }
+
+ .subhead {
+     font-family: 'Josefin Sans', sans-serif;;
+     text-align: center;
+     font-size: 3em;
+     color: white;
+     letter-spacing:  14px;
+     margin-top: -50px;
+ }
 
 
 #modal1, #modal2 {
@@ -56,41 +79,43 @@ h1.text-center {
 	position:relative;
 }
 
-#in, #out, #either {
-	display:inline-block;
-	width:27%;
-	height:250px;
-	text-align:center;
-	margin: 15px;
-	background-color:#a7e277;
-	border-radius:10px;
-	overflow: hidden;
-	
-}
-#in {
-	position:absolute;
-	left:3%;
-}
-#out {
-	position:absolute;
-	left:35%;
-}
-#either {
-	position:absolute;
-	left:67%;
-}
+ #in, #out, #either {
+ 	display:inline-block;
+ 	width: 210px;
+ 	height:300px;
+ 	text-align:center;
+ 	margin-left: 15px;
+    margin-top: -20px;
+ 	background-color:#53db50;
+ 	border-radius: 10px;
+ 	overflow: hidden;
+
+ 	
+ }
+ #in {
+ 	position:absolute;
+ 	left:20%;
+ }
+ #out {
+ 	position:absolute;
+ 	left:40%;
+ }
+ #either {
+ 	position:absolute;
+ 	left:60%;
+ }
 
 #in:hover, #out:hover, #either:hover{
 	cursor:pointer;
 }
 
-h2{
-	margin: 20% auto;
-    letter-spacing: 3px;
-    font-size: 4em;
-    font-family: 'Passion One', cursive;
-    color:white;
-}
+ h2 {
+ 	margin-top: 110px;
+     letter-spacing: 3px;
+     font-size: 4em;
+     font-family: 'Passion One', cursive;
+     color:white;
+ }
 
 h3{
 	font-family: 'Passion One', cursive;

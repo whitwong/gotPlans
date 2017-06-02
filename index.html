@@ -8,8 +8,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <!--Supplementary style links-->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Passion+One|Convergence|Josefin+Sans" rel="stylesheet">
   <!--Script tags for javascript/jquery libraries-->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
@@ -18,17 +17,30 @@
 </head>
 <body>
 
-    <!-- Jumbotron for Title -->
-  <a href="index.html">
-    <div class="jumbotron">
-        <h1 class="text-center"><strong>Got Plans?</strong></h1>
-        <div class="text-center" id="welcome"></div>
-        <button class="btn waves-effect waves-light" id="login">Log In</button>
-        <button class="btn waves-effect waves-light" id="logout">Log Out</button>
-        <button class="btn waves-effect waves-light" id="newUser">Sign Up</button>
-        <button class="btn waves-effect waves-light" id="favs">View Favorites</button>
+
+
+   <nav>
+    <div class="nav-wrapper">
+      <a class="navbar-brand"><img class="img-responsive2" src="assets/images/logo.png"></a>      
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a id="login">Log In</a></li>
+        <li><a id="logout">Log Out</a></li>
+        <li><a id="newUser">Sign Up</a></li>
+        <li><a id="favs">View Favorites</a></li>
+      </ul>
     </div>
-  </a>
+  </nav>
+        
+  
+  <div class="headbanner">
+  
+    <h1>Got Plans?</h1>
+    <p class="subhead">choose a card</p>
+
+  </div>
+
+
+
 
   <div id="modal1">
       <h3>gotPlans?</h3>
