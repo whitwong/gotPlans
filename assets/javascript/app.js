@@ -41,9 +41,9 @@ var dataMethods = {
         var errorMessage = error.message;
         // [START_EXCLUDE]
         if (errorCode == 'auth/weak-password') {
-          $("#sign-up-err").val('The password is too weak.');
+          $("#sign-up-err").text('The password is too weak.');
         } else {
-          $("#sign-up-err").val(errorMessage);
+          $("#sign-up-err").text(errorMessage);
         }
         console.log(error);
         // [END_EXCLUDE]
@@ -56,9 +56,9 @@ var dataMethods = {
         var errorMessage = error.message;
         // [START_EXCLUDE]
         if (errorCode === 'auth/wrong-password') {
-            $("#sign-in-err").val('Wrong password.');
+            $("#sign-in-err").text('Wrong password.');
         } else {
-            $("#sign-in-err").val(errorMessage);
+            $("#sign-in-err").text(errorMessage);
         }
         console.log(error);
         // [END_EXCLUDE]
@@ -374,7 +374,7 @@ var yummly = {
         }
     },
     callYummly: function() {
-        var queryItem = $("#ingredient-input").val().trim();
+        var queryItem = $("#ingredient-input").val().trim().toLowerCase();
         var queryUrl = "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=";
         $.ajax({
             url: queryUrl + encodeURIComponent(queryItem),
