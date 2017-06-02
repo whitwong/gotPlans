@@ -139,9 +139,11 @@ var zomato = {
             $("either-div").empty();
             $("#either-div").append("<p>Eat Out!</p>");
             zomato.queryCity(cityName);
+
         } else {
             $("either-div").empty();
             $("#either-div").append("<p>Stay In!</p>");
+
         }
 
 
@@ -161,15 +163,20 @@ var zomato = {
             method: "GET"
         }).done(function(response){
             $("#location-results").empty();
+            $("#either-divTwo").empty();
             var result=response.location_suggestions;
             for(var i=0; i < result.length; i++){
                 //create buttons based on city selected and append city id into a data-type
                 var locationbtn = $("<button>");
+                var locationbtnTwo = $("<button>")
                 locationbtn.attr("data-type", result[i].id);
+                locationbtnTwo.attr("data-type", result[i].id);
                 locationbtn.text(result[i].name);
+                locationbtnTwo.text(result[i].name);
                 locationbtn.addClass("city-select chip waves-effect waves-light");
+                locationbtnTwo.addClass("city-select chip waves-effect waves-light");
                 $("#location-results").append(locationbtn);
-                $("#either-divTwo").append(locationbtn);
+                $("#either-divTwo").append(locationbtnTwo);
             }
             $("#location-results").append("<p>Select your location</p>");
         });
@@ -318,6 +325,7 @@ var zomato = {
     },
     //pick a random restaurant from an ajax call based on cityId
     randomRestaurant: function(cityId){
+        $("#either-divThree").empty();
         randomQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&apikey="+apiKey;
         //Ajax request for restaurant data
         $.ajax({
@@ -341,6 +349,7 @@ var zomato = {
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
+                $("#either-divThree").append("<button class='reset chip waves-effect waves-light'>Choose Another Restaurant</button>")
         });
         
     }
@@ -447,6 +456,10 @@ $("#either-divTwo").on("click", ".city-select", function(){
     cityId = $(this).attr("data-type");
     zomato.randomRestaurant(cityId);
 });
+
+$("#either-divThree").on("click", ".reset", function() {
+    zomato.randomRestaurant(cityId);
+})
 
 $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
