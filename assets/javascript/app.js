@@ -25,6 +25,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     $("#newUser").hide();
     $("#logout").show();
     $("#favs").show();
+    $("#modal1").hide();
+    $("#modal2").hide();
     // ...
   } else {
     $("#welcome").hide();
