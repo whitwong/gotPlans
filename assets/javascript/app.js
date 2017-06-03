@@ -454,7 +454,7 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId-" + i + "\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
@@ -462,6 +462,12 @@ var yummly = {
         });
 
 
+
+    },
+    saveRecipe(): function(num) {
+        var img = "", link = "", name = "";
+
+        
 
     }
 }
@@ -552,3 +558,43 @@ $("#logout").on("click", function(){
     dataMethods.logOut();
 })
 // End Firebase functions
+
+// Save Fav for recipes
+$(".favesBtn").on("click", function() {
+    var id = $(this).attr("id");
+
+    switch(id) {
+        case "favesBtnId-0":
+            saveRecipe(0);
+            break;
+        case "favesBtnId-1":
+            saveRecipe(1);
+            break;
+        case "favesBtnId-2":
+            saveRecipe(2);
+            break;
+        case "favesBtnId-3":
+            saveRecipe(3);
+            break;
+        case "favesBtnId-4":
+            saveRecipe(4);
+            break;
+        case "favesBtnId-5":
+            saveRecipe(5);
+            break;
+        case "favesBtnId-6":
+            saveRecipe(6);
+            break;
+        case "favesBtnId-7":
+            saveRecipe(7);
+            break;
+        case "favesBtnId-8":
+            saveRecipe(8);
+            break;
+        case "favesBtnId-9":
+            saveRecipe(9);
+            break;
+        default:
+        console.log("nothing to save");
+    }
+})
