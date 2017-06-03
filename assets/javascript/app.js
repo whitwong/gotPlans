@@ -396,7 +396,7 @@ var yummly = {
                     "<tr>" +
                         "<th>" + "Image" + "</th>" +
                         "<th>" + "Recipe Name" + "</th>" +
-                        "<th>" + "Ingredients" + "</th>" +
+                        "<th>" + "Ingredients" + "</th>" +"<th>"+"Favorites"+ "</th>" +
                     "</tr>" +
                 "</table>");
 
@@ -411,7 +411,7 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td></tr>";
+            var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -469,6 +469,7 @@ var yummly = {
 
 $(document).on("click", ".favesBtn", function(event) {
     event.preventDefault();
+   
     $("#emptyHeart").removeClass("glyphicon glyphicon-heart-empty");
 
     $("#emptyHeart").addClass("glyphicon glyphicon-heart");
