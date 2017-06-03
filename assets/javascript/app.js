@@ -397,6 +397,7 @@ var yummly = {
                         "<th>" + "Image" + "</th>" +
                         "<th>" + "Recipe Name" + "</th>" +
                         "<th>" + "Ingredients" + "</th>" +
+                        "<th>" + "Favorite?" + "</th>" +
                     "</tr>" +
                 "</table>");
 
@@ -411,7 +412,7 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage+"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td></tr>";
+                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage + "' id=\"recImg" + i + "\"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favsRecId" + i + "\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -527,6 +528,7 @@ $("#either-divThree").on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
 
+//Firebase login, logout, sign up click events
 $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
     var pwd = $("#password1").val()
@@ -549,3 +551,4 @@ $("#submitNewUser").on("click", function() {
 $("#logout").on("click", function(){
     dataMethods.logOut();
 })
+// End Firebase functions
