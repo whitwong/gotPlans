@@ -1,3 +1,5 @@
+// Global variable to let us know if a user is logged in
+var loggedIn = false;
 // Initialize Firebase
 var config = {
 apiKey: "AIzaSyCg6X-cWnRuKUkmwDccwLrA84wLBqMVTWU",
@@ -27,9 +29,11 @@ firebase.auth().onAuthStateChanged(function(user) {
     $("#favs").show();
     $("#modal1").hide();
     $("#modal2").hide();
-    // ...
+    
+    loggedIn = true;
   } else {
     $("#welcome").hide();
+    loggedIn = false;
   }
 });
 
@@ -71,6 +75,23 @@ var dataMethods = {
         // An error happened.
             console.log(error);
         });
+    },
+    saveFavRec: function(name, link, pic, uid) {
+        var postData = {
+            uid: uid,
+            recipe: name,
+            url: link,
+            img: pic
+        }
+
+        // Get a key for a new Post.
+        var newPostKey = firebase.database().ref().child('recipes' + "/" + uid).push();
+
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates['/recipes/' + uid + '/' + newPostKey] = postData;
+
+        return firebase.database().ref().update(updates);
     }
 }
 
@@ -396,8 +417,7 @@ var yummly = {
                     "<tr>" +
                         "<th>" + "Image" + "</th>" +
                         "<th>" + "Recipe Name" + "</th>" +
-                        "<th>" + "Ingredients" + "</th>" +
-                        "<th>" + "Favorite?" + "</th>" +
+                        "<th>" + "Ingredients" + "</th>" +"<th>"+"Favorites"+ "</th>" +
                     "</tr>" +
                 "</table>");
 
@@ -412,7 +432,8 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow="<tr class=\"table-row\"><td><img src='"+recipeImage + "' id=\"recImg" + i + "\"'>" +  "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favsRecId" + i + "\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+
+            var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -454,21 +475,17 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId-" + i + "\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class=\"table-row\"><td><img id=\"recImg" + i + " src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId-" + i + "\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
             yummly.getRecipeLink();
         });
-
-
-
     },
-    saveRecipe(): function(num) {
-        var img = "", link = "", name = "";
+    saveRecipe: function(num) {
+        var img = $("#recImg" + num).attr("src"), link = $("#recipe-" + num).attr("href"), name = $("#recipe-" + num).text();
 
-        
-
+        dataMethods.saveFavRec(name, link, img);
     }
 }
 
@@ -476,6 +493,7 @@ var yummly = {
 
 $(document).on("click", ".favesBtn", function(event) {
     event.preventDefault();
+   
     $("#emptyHeart").removeClass("glyphicon glyphicon-heart-empty");
 
     $("#emptyHeart").addClass("glyphicon glyphicon-heart");
@@ -561,40 +579,42 @@ $("#logout").on("click", function(){
 
 // Save Fav for recipes
 $(".favesBtn").on("click", function() {
-    var id = $(this).attr("id");
+    if(loggedIn !== false) {
+        var id = $(this).attr("id");
 
-    switch(id) {
-        case "favesBtnId-0":
-            saveRecipe(0);
-            break;
-        case "favesBtnId-1":
-            saveRecipe(1);
-            break;
-        case "favesBtnId-2":
-            saveRecipe(2);
-            break;
-        case "favesBtnId-3":
-            saveRecipe(3);
-            break;
-        case "favesBtnId-4":
-            saveRecipe(4);
-            break;
-        case "favesBtnId-5":
-            saveRecipe(5);
-            break;
-        case "favesBtnId-6":
-            saveRecipe(6);
-            break;
-        case "favesBtnId-7":
-            saveRecipe(7);
-            break;
-        case "favesBtnId-8":
-            saveRecipe(8);
-            break;
-        case "favesBtnId-9":
-            saveRecipe(9);
-            break;
-        default:
-        console.log("nothing to save");
+        switch(id) {
+            case "favesBtnId-0":
+                saveRecipe(0);
+                break;
+            case "favesBtnId-1":
+                saveRecipe(1);
+                break;
+            case "favesBtnId-2":
+                saveRecipe(2);
+                break;
+            case "favesBtnId-3":
+                saveRecipe(3);
+                break;
+            case "favesBtnId-4":
+                saveRecipe(4);
+                break;
+            case "favesBtnId-5":
+                saveRecipe(5);
+                break;
+            case "favesBtnId-6":
+                saveRecipe(6);
+                break;
+            case "favesBtnId-7":
+                saveRecipe(7);
+                break;
+            case "favesBtnId-8":
+                saveRecipe(8);
+                break;
+            case "favesBtnId-9":
+                saveRecipe(9);
+                break;
+            default:
+            console.log("nothing to save");
+        }
     }
 })
