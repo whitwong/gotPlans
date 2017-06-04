@@ -76,23 +76,6 @@ var dataMethods = {
             console.log(error);
         });
     },
-    saveFavRec: function(name, link, pic, uid) {
-        var postData = {
-            uid: uid,
-            recipe: name,
-            url: link,
-            img: pic
-        }
-
-        // Get a key for a new Post.
-        var newPostKey = firebase.database().ref().child('recipes' + "/" + uid).push();
-
-        // Write the new post's data simultaneously in the posts list and the user's post list.
-        var updates = {};
-        updates['/recipes/' + uid + '/' + newPostKey] = postData;
-
-        return firebase.database().ref().update(updates);
-    }
 }
 
 var userSelect;
@@ -117,8 +100,6 @@ $("#newUser").on("click",function(){
     event.preventDefault();
     $("#modal2").css("visibility", "visible");
 });
-
-
 
 $("#in").on("click", function(){
     event.preventDefault();
@@ -431,9 +412,11 @@ var yummly = {
                 //console.log(recipeImage);
                 var ingredients=result[i].ingredients;
                 
-
-
-            var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class='table-row'>" + 
+                    "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
+                    "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
+                    "<td>" + ingredients + "</td>" +
+                    "<td><button id='favesBtnId-" + i + "'class=\"favesBtn glyphicon glyphicon-heart-empty\">" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -475,7 +458,11 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow = "<tr class=\"table-row\"><td><img id=\"recImg" + i + " src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId-" + i + "\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class='table-row'>" + 
+                    "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
+                    "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
+                    "<td>" + ingredients + "</td>" +
+                    "<td><button id='favesBtnId-" + i + "'class=\"favesBtn\">" + "<span id=\"heart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
@@ -483,9 +470,22 @@ var yummly = {
         });
     },
     saveRecipe: function(num) {
-        var img = $("#recImg" + num).attr("src"), link = $("#recipe-" + num).attr("href"), name = $("#recipe-" + num).text();
+        var user = firebase.auth().currentUser.uid;
+        var pic = $("#recImg-" + num).attr("src");
+        var link = $("#recipe-" + num).attr("href");
+        var name = $("#recipe-" + num).text();
 
-        dataMethods.saveFavRec(name, link, img);
+        console.log(user);
+        console.log(pic);
+        console.log(link);
+        console.log(name);
+
+        firebase.database().ref("/users").child(user).push({
+            uid: user,
+            recipe: name,
+            url: link,
+            img: pic
+        });
     }
 }
 
@@ -493,10 +493,56 @@ var yummly = {
 
 $(document).on("click", ".favesBtn", function(event) {
     event.preventDefault();
-   
-    $("#emptyHeart").removeClass("glyphicon glyphicon-heart-empty");
+    var state=$(this).attr("class");
+    console.log(state);
+    if (state==="favesBtn glyphicon glyphicon-heart-empty") {
+        $(this).removeClass("glyphicon glyphicon-heart-empty");
+        $(this).addClass("glyphicon glyphicon-heart");
+    }
 
-    $("#emptyHeart").addClass("glyphicon glyphicon-heart");
+    if (state==="favesBtn glyphicon glyphicon-heart"){
+        $(this).removeClass("glyphicon glyphicon-heart");
+        $(this).addClass("glyphicon glyphicon-heart-empty");
+    }
+
+    if(loggedIn !== false) {
+        var id = $(this).attr("id");
+
+        switch(id) {
+            case "favesBtnId-0":
+                yummly.saveRecipe(0);
+                break;
+            case "favesBtnId-1":
+                 yummly.saveRecipe(1);
+                break;
+            case "favesBtnId-2":
+                 yummly.saveRecipe(2);
+                break;
+            case "favesBtnId-3":
+                 yummly.saveRecipe(3);
+                break;
+            case "favesBtnId-4":
+                 yummly.saveRecipe(4);
+                break;
+            case "favesBtnId-5":
+                 yummly.saveRecipe(5);
+                break;
+            case "favesBtnId-6":
+                 yummly.saveRecipe(6);
+                break;
+            case "favesBtnId-7":
+                 yummly.saveRecipe(7);
+                break;
+            case "favesBtnId-8":
+                 yummly.saveRecipe(8);
+                break;
+            case "favesBtnId-9":
+                 yummly.saveRecipe(9);
+                break;
+            default:
+            console.log("nothing to save");
+        }
+    }
 });
 
 
@@ -577,44 +623,4 @@ $("#logout").on("click", function(){
 })
 // End Firebase functions
 
-// Save Fav for recipes
-$(".favesBtn").on("click", function() {
-    if(loggedIn !== false) {
-        var id = $(this).attr("id");
-
-        switch(id) {
-            case "favesBtnId-0":
-                saveRecipe(0);
-                break;
-            case "favesBtnId-1":
-                saveRecipe(1);
-                break;
-            case "favesBtnId-2":
-                saveRecipe(2);
-                break;
-            case "favesBtnId-3":
-                saveRecipe(3);
-                break;
-            case "favesBtnId-4":
-                saveRecipe(4);
-                break;
-            case "favesBtnId-5":
-                saveRecipe(5);
-                break;
-            case "favesBtnId-6":
-                saveRecipe(6);
-                break;
-            case "favesBtnId-7":
-                saveRecipe(7);
-                break;
-            case "favesBtnId-8":
-                saveRecipe(8);
-                break;
-            case "favesBtnId-9":
-                saveRecipe(9);
-                break;
-            default:
-            console.log("nothing to save");
-        }
-    }
-})
+    
