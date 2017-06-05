@@ -409,7 +409,7 @@ var yummly = {
                     "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
                     "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
                     "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
-                    "<td><button id='favesBtnId-" + i + "'class=\"favesBtn glyphicon glyphicon-heart-empty\">" + "</button></a></td></tr>";
+                    "<td><button id='favesBtnId-" + i + "'class='favesBtn glyphicon glyphicon-heart-empty'></button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -455,7 +455,7 @@ var yummly = {
                     "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
                     "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
                     "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
-                    "<td><button id='favesBtnId-" + i + "'class=\"favesBtn\">" + "<span id=\"heart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                    "<td><button id='favesBtnId-" + i + "'class='favesBtn glyphicon glyphicon-heart-empty'></button></a></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
@@ -558,7 +558,7 @@ $(document).on("click", "#favesInBtn", function(){
         "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
         "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
         "<td id='ingredients-"+"'>" + ingredients + "</td>" +
-        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'id='heart'</button></td></tr>";
+        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
         
         table.append(newRow);
 
