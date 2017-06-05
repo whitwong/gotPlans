@@ -98,12 +98,20 @@ function chooseBox() {
 //Initial click events to login and load option boxes
 $("#login").on("click",function(){
     event.preventDefault();
-    $("#modal1").css("visibility", "visible");
+    $("#modal1").show();
+    $("#email1").val("");
+    $("#password1").val("");
+});
+$("#modal1").on("click", ".closeModal1", function(){
+    $("#modal1").hide();
 });
 
 $("#newUser").on("click",function(){
     event.preventDefault();
-    $("#modal2").css("visibility", "visible");
+    $("#modal2").show();
+});
+$("#modal2").on("click", ".closeModal2", function(){
+    $("#modal2").hide();
 });
 
 $("#in").on("click", function(){
@@ -567,6 +575,7 @@ $(document).on("click", "#favesInBtn", function(){
     });
 });
 
+var user, dataKey;
 $(document).on("click", ".glyphicon-heart", function(event) {
     event.preventDefault();
     console.log(event);
@@ -574,18 +583,16 @@ $(document).on("click", ".glyphicon-heart", function(event) {
     $(this).addClass("glyphicon glyphicon-heart-empty");
 
     //code to remove recipes from favorites
-    var dataKey=$(this).attr("data-key");
+    dataKey=$(this).attr("data-key");
     console.log(dataKey);
-    var user = firebase.auth().currentUser.uid;
+    user = firebase.auth().currentUser.uid;
     console.log("here1");
     database.ref("/users").child(user).child(dataKey).remove();
     console.log("here2");
-
-    database.ref("/users").on("child_changed", function(snapshot){
-        console.log(snapshot.child("/users/"+""+user+"/"+dataKey+"").key);
-        $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
-    });
-
+});
+database.ref("/users").on("child_changed", function(snapshot){
+    console.log(snapshot.child("/users/"+""+user+"/"+dataKey+"").key);
+    $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
 });
 
 //here is the problem===============================
@@ -646,7 +653,7 @@ $("#either-divThree").on("click", "a.rest-overview", function(){
 //Firebase login, logout, sign up click events
 $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
-    var pwd = $("#password1").val()
+    var pwd = $("#password1").val();
 
     dataMethods.logIn(email, pwd);
 });
@@ -668,4 +675,40 @@ $("#logout").on("click", function(){
 });
 // End Firebase functions
 
-    
+/*************Navbar Favorite Function Calls*************/    
+$("#favs").on("click", function(){
+    event.preventDefault();
+    $("#favNav").show();
+    $("#favNav").css("overflow", "auto");
+
+    var table = $("<table class=\"table result-table\">" +
+        "<tr>" +
+        "<th>" + "Image" + "</th>" +
+        "<th>" + "Recipe Name" + "</th>" +
+        "<th>" + "Ingredients" + "</th>" + 
+        "<th>" + "Favorite?" + "</th>" +
+        "</tr>" +
+        "</table>");
+
+    var user = firebase.auth().currentUser.uid;
+    database.ref("/users").child(user).on("child_added", function(snapshot){
+        var recipeImage=snapshot.val().img;
+        var recipeName=snapshot.val().recipe;
+        var link=snapshot.val().url;
+        var ingredients=snapshot.val().ingredients;
+
+        var newRow = 
+        "<tr class='table-row' id='"+snapshot.key+"'>" + 
+        "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
+        "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
+        "<td id='ingredients-"+"'>" + ingredients + "</td>" +
+        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
+        
+        table.append(newRow);
+
+        $("#favRecipe").html(table);
+    });
+});
+$("#favNav").on("click", ".closeFav", function(){
+    $("#favNav").hide();
+});

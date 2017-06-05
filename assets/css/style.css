@@ -40,7 +40,7 @@ a:hover {
  }
 
 
-#modal1, #modal2 {
+#modal1, #modal2, #favNav {
     position: absolute;
     background:white;
     padding:15px;
@@ -58,12 +58,10 @@ a:hover {
     text-align:center;
 }
 
-#modal1{
-	visibility: hidden;
+#modal1, #modal2, #favNav{
+	display: none;
 }
-#modal2{
-	visibility: hidden;
-}
+
 
 input {
 	text-align: center;
@@ -118,6 +116,14 @@ h3{
 	font-size:2em;
 	color:#78c8e2;
 	margin:5px auto;
+}
+
+h4{
+    font-family: 'Passion One', cursive;
+    font-size:1.5em;
+    color:#78c8e2;
+    margin:5px auto;
+    text-align: left;
 }
 
 form.zip-form {
