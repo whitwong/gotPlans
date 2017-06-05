@@ -469,13 +469,7 @@ var yummly = {
         var name = $("#recipe-" + num).text();
         var materials=$("#ingredients-"+ num).text();
 
-        console.log(user);
-        console.log(pic);
-        console.log(link);
-        console.log(name);
-        console.log(materials);
-
-        firebase.database().ref("/users").child(user).push({
+        database.ref("/users").child(user).push({
             uid: user,
             recipe: name,
             url: link,
@@ -491,66 +485,58 @@ $("#ingredient-submit").on("click", function(){
 });
 
 //Saves Recipe to firebase when heart button is clicked
-$(document).on("click", ".favesBtn", function(event) {
+$(document).on("click", ".glyphicon-heart-empty", function(event) {
     event.preventDefault();
     var state=$(this).attr("class");
-    console.log(state);
-    if (state==="favesBtn glyphicon glyphicon-heart-empty") {
-        $(this).removeClass("glyphicon glyphicon-heart-empty");
-        $(this).addClass("glyphicon glyphicon-heart");
+    $(this).removeClass("glyphicon glyphicon-heart-empty");
+    $(this).addClass("glyphicon glyphicon-heart");
 
-        if(loggedIn !== false) {
-        var id = $(this).attr("id");
+    if(loggedIn !== false) {
+    var id = $(this).attr("id");
 
-            switch(id) {
-                case "favesBtnId-0":
-                    yummly.saveRecipe(0);
-                    break;
-                case "favesBtnId-1":
-                     yummly.saveRecipe(1);
-                    break;
-                case "favesBtnId-2":
-                     yummly.saveRecipe(2);
-                    break;
-                case "favesBtnId-3":
-                     yummly.saveRecipe(3);
-                    break;
-                case "favesBtnId-4":
-                     yummly.saveRecipe(4);
-                    break;
-                case "favesBtnId-5":
-                     yummly.saveRecipe(5);
-                    break;
-                case "favesBtnId-6":
-                     yummly.saveRecipe(6);
-                    break;
-                case "favesBtnId-7":
-                     yummly.saveRecipe(7);
-                    break;
-                case "favesBtnId-8":
-                     yummly.saveRecipe(8);
-                    break;
-                case "favesBtnId-9":
-                     yummly.saveRecipe(9);
-                    break;
-                default:
-                console.log("nothing to save");
-            }
+        switch(id) {
+            case "favesBtnId-0":
+                yummly.saveRecipe(0);
+                break;
+            case "favesBtnId-1":
+                 yummly.saveRecipe(1);
+                break;
+            case "favesBtnId-2":
+                 yummly.saveRecipe(2);
+                break;
+            case "favesBtnId-3":
+                 yummly.saveRecipe(3);
+                break;
+            case "favesBtnId-4":
+                 yummly.saveRecipe(4);
+                break;
+            case "favesBtnId-5":
+                 yummly.saveRecipe(5);
+                break;
+            case "favesBtnId-6":
+                 yummly.saveRecipe(6);
+                break;
+            case "favesBtnId-7":
+                 yummly.saveRecipe(7);
+                break;
+            case "favesBtnId-8":
+                 yummly.saveRecipe(8);
+                break;
+            case "favesBtnId-9":
+                 yummly.saveRecipe(9);
+                break;
+            default:
+            console.log("nothing to save");
         }
     }
-
-    if (state==="favesBtn glyphicon glyphicon-heart"){
-        $(this).removeClass("glyphicon glyphicon-heart");
-        $(this).addClass("glyphicon glyphicon-heart-empty");
-
-        //code to remove recipes from favorites
-    }
-
-    
 });
+
+//==============================================
 
 //show Favorite Recipes
 $(document).on("click", "#favesInBtn", function(){
+     event.preventDefault();
+    $("#recipe-results").empty();
 
     var table = $("<table class=\"table result-table\">" +
         "<tr>" +
@@ -561,26 +547,49 @@ $(document).on("click", "#favesInBtn", function(){
         "</table>");
 
     var user = firebase.auth().currentUser.uid;
-    firebase.database().ref("/users").child(user).on("child_added", function(snapshot){
+    database.ref("/users").child(user).on("child_added", function(snapshot){
         var recipeImage=snapshot.val().img;
         var recipeName=snapshot.val().recipe;
         var link=snapshot.val().url;
         var ingredients=snapshot.val().ingredients;
 
-        console.log(recipeImage);
-        console.log(ingredients);
-
-    var newRow = "<tr class='table-row'>" + 
+    var newRow = 
+        "<tr class='table-row' id='"+snapshot.key+"'>" + 
         "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
         "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
         "<td id='ingredients-"+"'>" + ingredients + "</td>" +
-        "<td><button id='favesBtnId-"+ "'class=\"favesBtn\">" + "<span id=\"heart\" class=\"glyphicon glyphicon-heart\"></span>" + "</button></a></td></tr>";
-    table.append(newRow);
+        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'id='heart'</button></td></tr>";
+        
+        table.append(newRow);
 
-    $("#recipe-results").append(table);
+        $("#recipe-results").append(table);
 
     });
 });
+
+$(document).on("click", ".glyphicon-heart", function(event) {
+    event.preventDefault();
+    console.log(event);
+    $(this).removeClass("glyphicon glyphicon-heart");
+    $(this).addClass("glyphicon glyphicon-heart-empty");
+
+    //code to remove recipes from favorites
+    var dataKey=$(this).attr("data-key");
+    console.log(dataKey);
+    var user = firebase.auth().currentUser.uid;
+    console.log("here1");
+    database.ref("/users").child(user).child(dataKey).remove();
+    console.log("here2");
+
+    database.ref("/users").on("child_changed", function(snapshot){
+        console.log(snapshot.child("/users/"+""+user+"/"+dataKey+"").key);
+        $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
+    });
+
+});
+
+//here is the problem===============================
+
 
 /*************Zomato Function Calls*************/
 //City input and submission
@@ -656,7 +665,7 @@ $("#submitNewUser").on("click", function() {
 
 $("#logout").on("click", function(){
     dataMethods.logOut();
-})
+});
 // End Firebase functions
 
     
