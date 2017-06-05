@@ -1,3 +1,5 @@
+// Global variable to let us know if a user is logged in
+var loggedIn = false;
 // Initialize Firebase
 var config = {
 apiKey: "AIzaSyCg6X-cWnRuKUkmwDccwLrA84wLBqMVTWU",
@@ -27,9 +29,11 @@ firebase.auth().onAuthStateChanged(function(user) {
     $("#favs").show();
     $("#modal1").hide();
     $("#modal2").hide();
-    // ...
+    
+    loggedIn = true;
   } else {
     $("#welcome").hide();
+    loggedIn = false;
   }
 });
 
@@ -71,7 +75,7 @@ var dataMethods = {
         // An error happened.
             console.log(error);
         });
-    }
+    },
 }
 
 var userSelect;
@@ -87,6 +91,8 @@ function chooseBox() {
     
 }
 
+
+//Initial click events to login and load option boxes
 $("#login").on("click",function(){
     event.preventDefault();
     $("#modal1").css("visibility", "visible");
@@ -96,8 +102,6 @@ $("#newUser").on("click",function(){
     event.preventDefault();
     $("#modal2").css("visibility", "visible");
 });
-
-
 
 $("#in").on("click", function(){
     event.preventDefault();
@@ -118,10 +122,7 @@ $("#either").on("click", function(){
     chooseBox();
 });
 
-$("#ingredient-submit").on("click", function(){
-    $("#recipe-results").empty();
-    yummly.callYummly();
-});
+
 
 //Click event to open recipe links
 //Reference site: http://befused.com/jquery/open-link-new-window
@@ -133,7 +134,7 @@ $("#either-divTwo").on("click", "a.directions", function(){
     window.open(this.href);
 });
 
-
+//Zomato Functions
 var zomato = {
     lookupUser: function(){
         //whatever
@@ -362,6 +363,8 @@ var zomato = {
     }
 }
 
+/*************Yummily Function Calls*************/
+
 var yummly = {
     getRecipeLink: function() {
         for (var i = 0; i < yummlyMatches.length; i ++) {
@@ -410,8 +413,11 @@ var yummly = {
                 //console.log(recipeImage);
                 var ingredients=result[i].ingredients;
                 
-
-            var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class='table-row'>" + 
+                    "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
+                    "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
+                    "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
+                    "<td><button id='favesBtnId-" + i + "'class=\"favesBtn glyphicon glyphicon-heart-empty\">" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -453,28 +459,136 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class='table-row'>" + 
+                    "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
+                    "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
+                    "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
+                    "<td><button id='favesBtnId-" + i + "'class=\"favesBtn\">" + "<span id=\"heart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
             yummly.getRecipeLink();
         });
+    },
+    saveRecipe: function(num) {
+        var user = firebase.auth().currentUser.uid;
+        var pic = $("#recImg-" + num).attr("src");
+        var link = $("#recipe-" + num).attr("href");
+        var name = $("#recipe-" + num).text();
+        var materials=$("#ingredients-"+ num).text();
 
+        console.log(user);
+        console.log(pic);
+        console.log(link);
+        console.log(name);
+        console.log(materials);
 
-
+        firebase.database().ref("/users").child(user).push({
+            uid: user,
+            recipe: name,
+            url: link,
+            ingredients: materials,
+            img: pic
+        });
     }
 }
-
-/*************Yummily Function Calls*************/
-
-$(document).on("click", ".favesBtn", function(event) {
-    event.preventDefault();
-   
-    $("#emptyHeart").removeClass("glyphicon glyphicon-heart-empty");
-
-    $("#emptyHeart").addClass("glyphicon glyphicon-heart");
+//Call Yummly function when submit button is clicked
+$("#ingredient-submit").on("click", function(){
+    $("#recipe-results").empty();
+    yummly.callYummly();
 });
 
+//Saves Recipe to firebase when heart button is clicked
+$(document).on("click", ".favesBtn", function(event) {
+    event.preventDefault();
+    var state=$(this).attr("class");
+    console.log(state);
+    if (state==="favesBtn glyphicon glyphicon-heart-empty") {
+        $(this).removeClass("glyphicon glyphicon-heart-empty");
+        $(this).addClass("glyphicon glyphicon-heart");
+
+        if(loggedIn !== false) {
+        var id = $(this).attr("id");
+
+            switch(id) {
+                case "favesBtnId-0":
+                    yummly.saveRecipe(0);
+                    break;
+                case "favesBtnId-1":
+                     yummly.saveRecipe(1);
+                    break;
+                case "favesBtnId-2":
+                     yummly.saveRecipe(2);
+                    break;
+                case "favesBtnId-3":
+                     yummly.saveRecipe(3);
+                    break;
+                case "favesBtnId-4":
+                     yummly.saveRecipe(4);
+                    break;
+                case "favesBtnId-5":
+                     yummly.saveRecipe(5);
+                    break;
+                case "favesBtnId-6":
+                     yummly.saveRecipe(6);
+                    break;
+                case "favesBtnId-7":
+                     yummly.saveRecipe(7);
+                    break;
+                case "favesBtnId-8":
+                     yummly.saveRecipe(8);
+                    break;
+                case "favesBtnId-9":
+                     yummly.saveRecipe(9);
+                    break;
+                default:
+                console.log("nothing to save");
+            }
+        }
+    }
+
+    if (state==="favesBtn glyphicon glyphicon-heart"){
+        $(this).removeClass("glyphicon glyphicon-heart");
+        $(this).addClass("glyphicon glyphicon-heart-empty");
+
+        //code to remove recipes from favorites
+    }
+
+    
+});
+
+//show Favorite Recipes
+$(document).on("click", "#favesInBtn", function(){
+
+    var table = $("<table class=\"table result-table\">" +
+        "<tr>" +
+        "<th>" + "Image" + "</th>" +
+        "<th>" + "Recipe Name" + "</th>" +
+        "<th>" + "Ingredients" + "</th>" + "<th>" + "Favorite?" + "</th>" +
+        "</tr>" +
+        "</table>");
+
+    var user = firebase.auth().currentUser.uid;
+    firebase.database().ref("/users").child(user).on("child_added", function(snapshot){
+        var recipeImage=snapshot.val().img;
+        var recipeName=snapshot.val().recipe;
+        var link=snapshot.val().url;
+        var ingredients=snapshot.val().ingredients;
+
+        console.log(recipeImage);
+        console.log(ingredients);
+
+    var newRow = "<tr class='table-row'>" + 
+        "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
+        "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
+        "<td id='ingredients-"+"'>" + ingredients + "</td>" +
+        "<td><button id='favesBtnId-"+ "'class=\"favesBtn\">" + "<span id=\"heart\" class=\"glyphicon glyphicon-heart\"></span>" + "</button></a></td></tr>";
+    table.append(newRow);
+
+    $("#recipe-results").append(table);
+
+    });
+});
 
 /*************Zomato Function Calls*************/
 //City input and submission
@@ -528,6 +642,7 @@ $("#either-divThree").on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
 
+//Firebase login, logout, sign up click events
 $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
     var pwd = $("#password1").val()
@@ -550,3 +665,6 @@ $("#submitNewUser").on("click", function() {
 $("#logout").on("click", function(){
     dataMethods.logOut();
 })
+// End Firebase functions
+
+    
