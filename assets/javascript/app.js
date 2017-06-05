@@ -33,6 +33,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     loggedIn = true;
   } else {
     $("#welcome").hide();
+    $("#login").show();
+    $("#newUser").show();
+    $("#logout").hide();
+    $("#favs").hide();
     loggedIn = false;
   }
 });
@@ -87,8 +91,7 @@ function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
 	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%', 'height' : '1000px'},1000, function(){
         $("#"+userSelect+"-zip").css("visibility", "visible");
-    });
-    
+    });    
 }
 
 
@@ -136,9 +139,6 @@ $("#either-divTwo").on("click", "a.directions", function(){
 
 //Zomato Functions
 var zomato = {
-    lookupUser: function(){
-        //whatever
-    },
     coinFlip: function(){
         
         var randomNumber = Math.round(Math.random());
@@ -153,9 +153,6 @@ var zomato = {
             $("#either-div").append("<p>Stay In!</p>");
             yummly.randomRecipe();
         }
-
-
-
     },
     queryCity: function(city){
         //Clear all results sections when new city is entered
@@ -252,16 +249,15 @@ var zomato = {
             var resultTable = $("<table class='table'>");
             resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
                 "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
+                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
-            //Add restaurant results as a new row to the table
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
                 optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
-                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
@@ -282,8 +278,8 @@ var zomato = {
             var resultTable = $("<table class='table'>");
             resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
                 "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
+                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -291,7 +287,7 @@ var zomato = {
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
                 optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
-                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
@@ -312,8 +308,8 @@ var zomato = {
             var resultTable = $("<table class='table'>");
             resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
                 "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
+                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -321,15 +317,12 @@ var zomato = {
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
                 optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
-                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
             }
         });
-    },
-    displayResultZomato: function(){
-
     },
     //pick a random restaurant from an ajax call based on cityId
     randomRestaurant: function(cityId){
@@ -344,8 +337,8 @@ var zomato = {
             var resultTable = $("<table class='table'>");
             resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
                 "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
+                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
             resultTable.append("<tbody>");
             $("#either-divThree").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -358,8 +351,7 @@ var zomato = {
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
                 $("#either-divThree").append("<button class='reset chip waves-effect waves-light'>Choose Another Restaurant</button>")
-        });
-        
+        });   
     }
 }
 
@@ -621,12 +613,12 @@ $("#option-results").on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
 
+/*************Surprise Me Function Calls*************/
 //Grab user input
 $("#zip-submit").on("click", function() {
     event.preventDefault();
     cityName = $("#zip-input").val().trim();
     zomato.coinFlip();
-
 });
 
 $("#either-divTwo").on("click", ".city-select", function(){
@@ -636,7 +628,7 @@ $("#either-divTwo").on("click", ".city-select", function(){
 
 $("#either-divThree").on("click", ".reset", function() {
     zomato.randomRestaurant(cityId);
-})
+});
 
 $("#either-divThree").on("click", "a.rest-overview", function(){
     window.open(this.href);
