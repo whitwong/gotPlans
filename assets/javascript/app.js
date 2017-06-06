@@ -124,6 +124,7 @@ $("#out").on("click", function(){
     event.preventDefault();
 	userSelect=$(this).attr("id");
     $("#in, #either").css("visibility", "hidden");
+    $("#out").css("overflow", "auto");
     chooseBox();
 });
 $("#either").on("click", function(){
@@ -247,7 +248,7 @@ var zomato = {
         //Clear returned results when new cuisine selection is chosen
         $("#option-results").html("");
         //Build new query URL with city and cuisine ID's
-        newQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&cuisines="+cuisineId+"&apikey="+apiKey;
+        newQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&count=10&cuisines="+cuisineId+"&apikey="+apiKey;
         //Ajax request for restaurant data
         $.ajax({
             url: newQueryURL,
@@ -282,7 +283,7 @@ var zomato = {
         //Clear returned results when new cuisine selection is chosen
         $("#option-results").html("");
         //Build new query URL with price sort option
-        priceURL = newQueryURL+"&sort=cost&order=desc";
+        priceURL = newQueryURL+"&count=10&sort=cost&order=desc";
         //Ajax request for restaurant data
         $.ajax({
             url: priceURL,
@@ -318,7 +319,7 @@ var zomato = {
         //Clear returned results when new cuisine selection is chosen
         $("#option-results").html("");
         //Build new query URL with rating sort option
-        ratingURL = newQueryURL+"&sort=rating&order=desc";
+        ratingURL = newQueryURL+"&count=10&sort=rating&order=desc";
         //Ajax request for restaurant data
         $.ajax({
             url: ratingURL,
@@ -352,7 +353,7 @@ var zomato = {
     //pick a random restaurant from an ajax call based on cityId
     randomRestaurant: function(cityId){
         $("#either-divThree").empty();
-        randomQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&apikey="+apiKey;
+        randomQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&count=10&apikey="+apiKey;
         //Ajax request for restaurant data
         $.ajax({
             url: randomQueryURL,
@@ -384,24 +385,23 @@ var zomato = {
                 $("#either-divThree").append("<button class='reset chip waves-effect waves-light'>Choose Another Restaurant</button>")
         });   
     },
-    // saveRestaurant: function(num) {
-    //     var user = firebase.auth().currentUser.uid;
-    //     var pic = $("#restImg-" + num).attr("src");
-    //     var link = $("#restName-" + num).attr("href");
-    //     var name = $("#restName-" + num).text();
-    //     var price= $("#restPrice-"+ num).text();
-    //     var rating =$("#restRating-"+ num).text();
+    saveRestaurant: function(num) {
+        var user = firebase.auth().currentUser.uid;
+        var pic = $("#restImg-" + num).attr("src");
+        var link = $("#restName-" + num).attr("href");
+        var name = $("#restName-" + num).text();
+        var price= $("#restPrice-"+ num).text();
+        var rating =$("#restRating-"+ num).text();
 
-    //     database.ref("/users").child(user).push({
-    //         uid: user,
-    //         img: pic
-    //         name: name,
-    //         url: link,
-    //         price: price
-    //         rating: rating,
-            
-    //     });
-    // }
+        database.ref("/users").child(user).child("restaurant").push({
+            uid: user,
+            img: pic,
+            name: name,
+            url: link,
+            price: price,
+            rating: rating
+        });
+    }
 }
 
 /*************Yummily Function Calls*************/
@@ -519,7 +519,7 @@ var yummly = {
         var name = $("#recipe-" + num).text();
         var materials=$("#ingredients-"+ num).text();
 
-        database.ref("/users").child(user).push({
+        database.ref("/users").child(user).child("recipe").push({
             uid: user,
             recipe: name,
             url: link,
@@ -588,44 +588,44 @@ $(document).on("click", ".glyphicon-heart-empty", function(event) {
         $(this).removeClass("glyphicon glyphicon-heart-empty");
         $(this).addClass("glyphicon glyphicon-heart");
 
-        // if(loggedIn !== false) {
-        // var id = $(this).attr("id");
+        if(loggedIn !== false) {
+        var id = $(this).attr("id");
 
-        //     switch(id) {
-        //         case "favesOutBtnId--0":
-        //             zomato.saveRestaurant(0);
-        //             break;
-        //         case "favesOutBtnId-1":
-        //              zomato.saveRestaurant(1);
-        //             break;
-        //         case "favesOutBtnId-2":
-        //              zomato.saveRestaurant(2);
-        //             break;
-        //         case "favesOutBtnId-3":
-        //              zomato.saveRestaurant(3);
-        //             break;
-        //         case "favesOutBtnId-4":
-        //              zomato.saveRestaurant(4);
-        //             break;
-        //         case "favesOutBtnId-5":
-        //              zomato.saveRestaurant(5);
-        //             break;
-        //         case "favesOutBtnId-6":
-        //              zomato.saveRestaurant(6);
-        //             break;
-        //         case "favesOutBtnId-7":
-        //              zomato.saveRestaurant(7);
-        //             break;
-        //         case "favesOutBtnId-8":
-        //              zomato.saveRestaurant(8);
-        //             break;
-        //         case "favesOutBtnId-9":
-        //              zomato.saveRestaurante(9);
-        //             break;
-        //         default:
-        //         console.log("nothing to save");
-        //     }
-        // }
+            switch(id) {
+                case "favesOutBtnId-0":
+                    zomato.saveRestaurant(0);
+                    break;
+                case "favesOutBtnId-1":
+                     zomato.saveRestaurant(1);
+                    break;
+                case "favesOutBtnId-2":
+                     zomato.saveRestaurant(2);
+                    break;
+                case "favesOutBtnId-3":
+                     zomato.saveRestaurant(3);
+                    break;
+                case "favesOutBtnId-4":
+                     zomato.saveRestaurant(4);
+                    break;
+                case "favesOutBtnId-5":
+                     zomato.saveRestaurant(5);
+                    break;
+                case "favesOutBtnId-6":
+                     zomato.saveRestaurant(6);
+                    break;
+                case "favesOutBtnId-7":
+                     zomato.saveRestaurant(7);
+                    break;
+                case "favesOutBtnId-8":
+                     zomato.saveRestaurant(8);
+                    break;
+                case "favesOutBtnId-9":
+                     zomato.saveRestaurant(9);
+                    break;
+                default:
+                console.log("nothing to save");
+            }
+        }
     }
 });
 
@@ -645,7 +645,7 @@ $(document).on("click", "#favesInBtn", function(){
         "</table>");
 
     var user = firebase.auth().currentUser.uid;
-    database.ref("/users").child(user).on("child_added", function(snapshot){
+    database.ref("/users").child(user).child("recipe").on("child_added", function(snapshot){
         var recipeImage=snapshot.val().img;
         var recipeName=snapshot.val().recipe;
         var link=snapshot.val().url;
@@ -664,7 +664,7 @@ $(document).on("click", "#favesInBtn", function(){
 
     });
 });
-
+//Remove favorite recipes
 var user, dataKey;
 $(document).on("click", ".glyphicon-heart", function(event) {
     var state=$(this).attr("class");
@@ -678,7 +678,7 @@ $(document).on("click", ".glyphicon-heart", function(event) {
     console.log(dataKey);
     user = firebase.auth().currentUser.uid;
     console.log("here1");
-    database.ref("/users").child(user).child(dataKey).remove();
+    database.ref("/users").child(user).child("recipe").child(dataKey).remove();
     console.log("here2");
 });
 database.ref("/users").on("child_changed", function(snapshot){
@@ -686,8 +686,66 @@ database.ref("/users").on("child_changed", function(snapshot){
     $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
 });
 
-//here is the problem===============================
+//Show Favorite Restaurants
+$(document).on("click", "#favesOutBtn", function(){
+     event.preventDefault();
+    $("#location-results").empty();
+    $("#cuisine-results").empty();
+    $("#option-results").empty();
 
+    var resultTable = $("<table class='table'>");
+
+    resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
+        "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+        "<th>Price Range </th>"+
+        "<th>Rating </th>"+
+        "<th>"+"Favorites"+"</th>"+
+        "</tr></thead>");
+
+    var user = firebase.auth().currentUser.uid;
+    database.ref("/users").child(user).child("restaurant").on("child_added", function(snapshot){
+        var restImage=snapshot.val().img;
+        var restName=snapshot.val().name;
+        var link=snapshot.val().url;
+        var price=snapshot.val().price;
+        var rating=snapshot.val().rating;
+
+    var newRow = 
+        "<tr class='table-row' id='"+snapshot.key+"'>" + 
+        "<td><img class='rest-image' id='restImg-" +"'src='" + restImage + "'>"+"</td>" +
+        "<td><a id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
+        "<td id='price-"+"'>" + price + "</td>" +
+        "<td id='rating-"+"'>" + rating + "</td>" +
+        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
+        
+        resultTable.append(newRow);
+
+        $("#option-results").append(resultTable);
+    });
+});
+//Remove favorite restaurants
+var user, dataKey;
+$(document).on("click", ".glyphicon-heart", function(event) {
+    var state=$(this).attr("class");
+    event.preventDefault();
+    console.log(event);
+    $(this).removeClass("glyphicon glyphicon-heart");
+    $(this).addClass("glyphicon glyphicon-heart-empty");
+
+    //code to remove recipes from favorites
+    dataKey=$(this).attr("data-key");
+    console.log(dataKey);
+    user = firebase.auth().currentUser.uid;
+    console.log("here1");
+    database.ref("/users").child(user).child("restaurant").child(dataKey).remove();
+    console.log("here2");
+});
+database.ref("/users").on("child_changed", function(snapshot){
+    console.log(snapshot.child("/users/"+""+user+"/"+dataKey+"").key);
+    $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
+});
+
+//==============================================
 
 /*************Zomato Function Calls*************/
 //City input and submission
@@ -782,7 +840,7 @@ $("#favs").on("click", function(){
         "</table>");
 
     var user = firebase.auth().currentUser.uid;
-    database.ref("/users").child(user).on("child_added", function(snapshot){
+    database.ref("/users").child(user).child("recipe").on("child_added", function(snapshot){
         var recipeImage=snapshot.val().img;
         var recipeName=snapshot.val().recipe;
         var link=snapshot.val().url;
@@ -798,6 +856,36 @@ $("#favs").on("click", function(){
         table.append(newRow);
 
         $("#favRecipe").html(table);
+    });
+
+    var resultTable = $("<table class='table'>");
+
+    resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
+        "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+        "<th>Price Range </th>"+
+        "<th>Rating </th>"+
+        "<th>"+"Favorites"+"</th>"+
+        "</tr></thead>");
+
+    var user = firebase.auth().currentUser.uid;
+    database.ref("/users").child(user).child("restaurant").on("child_added", function(snapshot){
+        var restImage=snapshot.val().img;
+        var restName=snapshot.val().name;
+        var link=snapshot.val().url;
+        var price=snapshot.val().price;
+        var rating=snapshot.val().rating;
+
+        var newRow = 
+            "<tr class='table-row' id='"+snapshot.key+"'>" + 
+            "<td><img class='rest-image' id='restImg-" +"'src='" + restImage + "'>"+"</td>" +
+            "<td><a id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
+            "<td id='price-"+"'>" + price + "</td>" +
+            "<td id='rating-"+"'>" + rating + "</td>" +
+            "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
+        
+        resultTable.append(newRow);
+
+        $("#favRest").html(resultTable);
     });
 });
 $("#favNav").on("click", ".closeFav", function(){
