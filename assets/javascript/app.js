@@ -255,10 +255,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
-                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             var results=response.restaurants;
@@ -284,10 +284,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
-                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -314,10 +314,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
-                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -343,10 +343,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
-                "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#either-divThree").append(resultTable);
             //Add restaurant results as a new row to the table
