@@ -126,6 +126,12 @@ h4{
     text-align: left;
 }
 
+.option {
+	font-family: 'Passion One', cursive;
+	font-size: 2.5em;
+	color: white;
+	text-align: center;
+}
 form.zip-form {
 	visibility:hidden;
 	display:inline;

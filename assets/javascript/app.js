@@ -301,7 +301,7 @@ var queryURL, city="", cityId, cuisineId, apiKey = "0740f7fe7643fb4e802a336372f8
 //Function for Stay-in, Go-out, and Surprise Me box selections
 function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
-	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%', 'height' : '1000px'},1000, function(){
+	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%', 'height' : '1300px'},1000, function(){
         $("#"+userSelect+"-zip").css("visibility", "visible");
     });    
 }
@@ -311,15 +311,16 @@ var zomato = {
     coinFlip: function(){
         
         var randomNumber = Math.round(Math.random());
+        $("#either-div").empty();
 
         if (randomNumber === 0) {
             $("either-div").empty();
-            $("#either-div").append("<p>Eat Out!</p>");
+            $("#either-div").append("<h3 class='option'>Eat Out!</h3>");
             zomato.queryCity(cityName);
 
         } else {
             $("either-div").empty();
-            $("#either-div").append("<p>Stay In!</p>");
+            $("#either-div").append("<h3 class='option'>Stay In!</h3>");
             yummly.randomRecipe();
         }
     },
@@ -607,7 +608,7 @@ var yummly = {
         var ingredients = ["chicken", "pasta", "butter", "tomato", "feta", "olives", "lettuce", "apple", "milk", "carrot", "cracker", "steak", "salmon", "turkey", "tofu", "sour cream", "eggs", "spinach", "chedar cheese", "almonds", "onion", "green beans", "squash", "potato", "cauliflower", "broth", "mushrooms", "salsa", "hashbrowns", "bread", "raisins", "quinoa", "brown rice", "bell pepper", "banana", "bok choy", "soy sauce", "tortilla chips"];
 
         var randomIngredient = ingredients[Math.floor(Math.random() * ingredients.length)];
-        
+        $("#either-divTwo").empty();
         $.ajax({
             url: "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=" + encodeURIComponent(randomIngredient),
             method: "GET"
@@ -624,7 +625,7 @@ var yummly = {
                 "</tr>" +
                 "</table>");
 
-            $("#either-divTwo").append("<p>Try one of these recipes!</p>");
+            $("#either-divTwo").append("<h4 class='option'>Try one of these recipes!</h4>");
             for (var i=0; i < result.length; i++){
 
                 var recipeId="http://www.yummly.com/recipe/" + result[i].id;
@@ -640,6 +641,8 @@ var yummly = {
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
+            $("#either-divTwo").append("<button id='resetRecipe' class='chip waves-effect waves-light'>Don't like any of these? Reset</button>");
+
             yummly.getRecipeLink();
         });
     },
@@ -794,7 +797,10 @@ $("#either-divThree").on("click", ".reset", function() {
 $("#either-divThree").on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
-
+//Click event to reset random recipes
+$("#either-divTwo").on("click", "#resetRecipe", function() {
+    yummly.randomRecipe();
+})
 /*************Favorite Modal Click Events*************/    
 $("#favs").on("click", function(){
     event.preventDefault();
