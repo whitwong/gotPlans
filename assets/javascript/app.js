@@ -1,3 +1,5 @@
+// Global variable to let us know if a user is logged in
+var loggedIn = false;
 // Initialize Firebase
 var config = {
 apiKey: "AIzaSyCg6X-cWnRuKUkmwDccwLrA84wLBqMVTWU",
@@ -27,9 +29,15 @@ firebase.auth().onAuthStateChanged(function(user) {
     $("#favs").show();
     $("#modal1").hide();
     $("#modal2").hide();
-    // ...
+    
+    loggedIn = true;
   } else {
     $("#welcome").hide();
+    $("#login").show();
+    $("#newUser").show();
+    $("#logout").hide();
+    $("#favs").hide();
+    loggedIn = false;
   }
 });
 
@@ -71,7 +79,7 @@ var dataMethods = {
         // An error happened.
             console.log(error);
         });
-    }
+    },
 }
 
 var userSelect;
@@ -83,21 +91,28 @@ function chooseBox() {
 	$("#"+userSelect+"-text").css("margin", "0%");
 	$("#"+userSelect).animate({'left' : '3%', 'width' : '90%', 'height' : '1000px'},1000, function(){
         $("#"+userSelect+"-zip").css("visibility", "visible");
-    });
-    
+    });    
 }
 
+
+//Initial click events to login and load option boxes
 $("#login").on("click",function(){
     event.preventDefault();
-    $("#modal1").css("visibility", "visible");
+    $("#modal1").show();
+    $("#email1").val("");
+    $("#password1").val("");
+});
+$("#modal1").on("click", ".closeModal1", function(){
+    $("#modal1").hide();
 });
 
 $("#newUser").on("click",function(){
     event.preventDefault();
-    $("#modal2").css("visibility", "visible");
+    $("#modal2").show();
 });
-
-
+$("#modal2").on("click", ".closeModal2", function(){
+    $("#modal2").hide();
+});
 
 $("#in").on("click", function(){
     event.preventDefault();
@@ -118,10 +133,7 @@ $("#either").on("click", function(){
     chooseBox();
 });
 
-$("#ingredient-submit").on("click", function(){
-    $("#recipe-results").empty();
-    yummly.callYummly();
-});
+
 
 //Click event to open recipe links
 //Reference site: http://befused.com/jquery/open-link-new-window
@@ -133,11 +145,8 @@ $("#either-divTwo").on("click", "a.directions", function(){
     window.open(this.href);
 });
 
-
+//Zomato Functions
 var zomato = {
-    lookupUser: function(){
-        //whatever
-    },
     coinFlip: function(){
         
         var randomNumber = Math.round(Math.random());
@@ -152,9 +161,6 @@ var zomato = {
             $("#either-div").append("<p>Stay In!</p>");
             yummly.randomRecipe();
         }
-
-
-
     },
     queryCity: function(city){
         //Clear all results sections when new city is entered
@@ -249,20 +255,20 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
-            //Add restaurant results as a new row to the table
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
                 optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
-                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
+                optionResults.append("<td><button id='favesBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
             }
         });
@@ -279,10 +285,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -290,9 +296,10 @@ var zomato = {
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
                 optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
-                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
+                optionResults.append("<td><button id='favesBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
             }
         });
@@ -309,10 +316,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#option-results").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -320,15 +327,12 @@ var zomato = {
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
                 optionResults.append("<td><img class='rest-image' src='"+results[i].restaurant.thumb+"'></td>"); 
-                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"''>"+results[i].restaurant.name+"</a></td>");
+                optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
                 resultTable.append(optionResults);
             }
         });
-    },
-    displayResultZomato: function(){
-
     },
     //pick a random restaurant from an ajax call based on cityId
     randomRestaurant: function(cityId){
@@ -341,10 +345,10 @@ var zomato = {
         }).done(function(response){
             //Dynamically create table
             var resultTable = $("<table class='table'>");
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>"+
-                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th></tr></thead>");
+            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>" +
+                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>" +
+                "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i>" +
+                "</th><th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th><th>Favorite?</th></tr></thead>");
             resultTable.append("<tbody>");
             $("#either-divThree").append(resultTable);
             //Add restaurant results as a new row to the table
@@ -355,12 +359,14 @@ var zomato = {
                 optionResults.append("<td><a class='rest-overview' href='"+results[randomRestaurantNumber].restaurant.url+"''>"+results[randomRestaurantNumber].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.user_rating.aggregate_rating+"</td>");
+                optionResults.append("<td><button id='favesBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
                 $("#either-divThree").append("<button class='reset chip waves-effect waves-light'>Choose Another Restaurant</button>")
-        });
-        
+        });   
     }
 }
+
+/*************Yummily Function Calls*************/
 
 var yummly = {
     getRecipeLink: function() {
@@ -410,8 +416,11 @@ var yummly = {
                 //console.log(recipeImage);
                 var ingredients=result[i].ingredients;
                 
-
-            var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class='table-row'>" + 
+                    "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
+                    "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
+                    "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
+                    "<td><button id='favesBtnId-" + i + "'class='favesBtn glyphicon glyphicon-heart-empty'></button></a></td></tr>";
                 table.append(newRow);
             }
             $("#recipe-results").append(table);
@@ -453,27 +462,143 @@ var yummly = {
                 var ingredients=result[i].ingredients;
                 
 
-                var newRow = "<tr class=\"table-row\"><td><img src='" + recipeImage + "'>" + "</td><td><a id =\"recipe-" + i + "\" target=\"_blank\">" + recipeName + "</a></td><td>" + ingredients + "</td><td><button id=\"favesBtnId\" class=\"favesBtn\">" + "<span id=\"emptyHeart\" class=\"glyphicon glyphicon-heart-empty\"></span>" + "</button></a></td></tr>";
+                var newRow = "<tr class='table-row'>" + 
+                    "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
+                    "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
+                    "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
+                    "<td><button id='favesBtnId-" + i + "'class='favesBtn glyphicon glyphicon-heart-empty'></button></a></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
             yummly.getRecipeLink();
         });
+    },
+    saveRecipe: function(num) {
+        var user = firebase.auth().currentUser.uid;
+        var pic = $("#recImg-" + num).attr("src");
+        var link = $("#recipe-" + num).attr("href");
+        var name = $("#recipe-" + num).text();
+        var materials=$("#ingredients-"+ num).text();
 
-
-
+        database.ref("/users").child(user).push({
+            uid: user,
+            recipe: name,
+            url: link,
+            ingredients: materials,
+            img: pic
+        });
     }
 }
-
-/*************Yummily Function Calls*************/
-
-$(document).on("click", ".favesBtn", function(event) {
-    event.preventDefault();
-   
-    $("#emptyHeart").removeClass("glyphicon glyphicon-heart-empty");
-
-    $("#emptyHeart").addClass("glyphicon glyphicon-heart");
+//Call Yummly function when submit button is clicked
+$("#ingredient-submit").on("click", function(){
+    $("#recipe-results").empty();
+    yummly.callYummly();
 });
+
+//Saves Recipe to firebase when heart button is clicked
+$(document).on("click", ".glyphicon-heart-empty", function(event) {
+    event.preventDefault();
+    var state=$(this).attr("class");
+    $(this).removeClass("glyphicon glyphicon-heart-empty");
+    $(this).addClass("glyphicon glyphicon-heart");
+
+    if(loggedIn !== false) {
+    var id = $(this).attr("id");
+
+        switch(id) {
+            case "favesBtnId-0":
+                yummly.saveRecipe(0);
+                break;
+            case "favesBtnId-1":
+                 yummly.saveRecipe(1);
+                break;
+            case "favesBtnId-2":
+                 yummly.saveRecipe(2);
+                break;
+            case "favesBtnId-3":
+                 yummly.saveRecipe(3);
+                break;
+            case "favesBtnId-4":
+                 yummly.saveRecipe(4);
+                break;
+            case "favesBtnId-5":
+                 yummly.saveRecipe(5);
+                break;
+            case "favesBtnId-6":
+                 yummly.saveRecipe(6);
+                break;
+            case "favesBtnId-7":
+                 yummly.saveRecipe(7);
+                break;
+            case "favesBtnId-8":
+                 yummly.saveRecipe(8);
+                break;
+            case "favesBtnId-9":
+                 yummly.saveRecipe(9);
+                break;
+            default:
+            console.log("nothing to save");
+        }
+    }
+});
+
+//==============================================
+
+//show Favorite Recipes
+$(document).on("click", "#favesInBtn", function(){
+     event.preventDefault();
+    $("#recipe-results").empty();
+
+    var table = $("<table class=\"table result-table\">" +
+        "<tr>" +
+        "<th>" + "Image" + "</th>" +
+        "<th>" + "Recipe Name" + "</th>" +
+        "<th>" + "Ingredients" + "</th>" + "<th>" + "Favorite?" + "</th>" +
+        "</tr>" +
+        "</table>");
+
+    var user = firebase.auth().currentUser.uid;
+    database.ref("/users").child(user).on("child_added", function(snapshot){
+        var recipeImage=snapshot.val().img;
+        var recipeName=snapshot.val().recipe;
+        var link=snapshot.val().url;
+        var ingredients=snapshot.val().ingredients;
+
+    var newRow = 
+        "<tr class='table-row' id='"+snapshot.key+"'>" + 
+        "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
+        "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
+        "<td id='ingredients-"+"'>" + ingredients + "</td>" +
+        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
+        
+        table.append(newRow);
+
+        $("#recipe-results").append(table);
+
+    });
+});
+
+var user, dataKey;
+$(document).on("click", ".glyphicon-heart", function(event) {
+    event.preventDefault();
+    console.log(event);
+    $(this).removeClass("glyphicon glyphicon-heart");
+    $(this).addClass("glyphicon glyphicon-heart-empty");
+
+    //code to remove recipes from favorites
+    dataKey=$(this).attr("data-key");
+    console.log(dataKey);
+    user = firebase.auth().currentUser.uid;
+    console.log("here1");
+    database.ref("/users").child(user).child(dataKey).remove();
+    console.log("here2");
+});
+database.ref("/users").on("child_changed", function(snapshot){
+    console.log(snapshot.child("/users/"+""+user+"/"+dataKey+"").key);
+    $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
+});
+
+//here is the problem===============================
 
 
 /*************Zomato Function Calls*************/
@@ -507,12 +632,12 @@ $("#option-results").on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
 
+/*************Surprise Me Function Calls*************/
 //Grab user input
 $("#zip-submit").on("click", function() {
     event.preventDefault();
     cityName = $("#zip-input").val().trim();
     zomato.coinFlip();
-
 });
 
 $("#either-divTwo").on("click", ".city-select", function(){
@@ -522,15 +647,16 @@ $("#either-divTwo").on("click", ".city-select", function(){
 
 $("#either-divThree").on("click", ".reset", function() {
     zomato.randomRestaurant(cityId);
-})
+});
 
 $("#either-divThree").on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
 
+//Firebase login, logout, sign up click events
 $("#submitLogin1").on("click", function() {
     var email = $("#email1").val();
-    var pwd = $("#password1").val()
+    var pwd = $("#password1").val();
 
     dataMethods.logIn(email, pwd);
 });
@@ -549,4 +675,43 @@ $("#submitNewUser").on("click", function() {
 
 $("#logout").on("click", function(){
     dataMethods.logOut();
-})
+});
+// End Firebase functions
+
+/*************Navbar Favorite Function Calls*************/    
+$("#favs").on("click", function(){
+    event.preventDefault();
+    $("#favNav").show();
+    $("#favNav").css("overflow", "auto");
+
+    var table = $("<table class=\"table result-table\">" +
+        "<tr>" +
+        "<th>" + "Image" + "</th>" +
+        "<th>" + "Recipe Name" + "</th>" +
+        "<th>" + "Ingredients" + "</th>" + 
+        "<th>" + "Favorite?" + "</th>" +
+        "</tr>" +
+        "</table>");
+
+    var user = firebase.auth().currentUser.uid;
+    database.ref("/users").child(user).on("child_added", function(snapshot){
+        var recipeImage=snapshot.val().img;
+        var recipeName=snapshot.val().recipe;
+        var link=snapshot.val().url;
+        var ingredients=snapshot.val().ingredients;
+
+        var newRow = 
+        "<tr class='table-row' id='"+snapshot.key+"'>" + 
+        "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
+        "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
+        "<td id='ingredients-"+"'>" + ingredients + "</td>" +
+        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
+        
+        table.append(newRow);
+
+        $("#favRecipe").html(table);
+    });
+});
+$("#favNav").on("click", ".closeFav", function(){
+    $("#favNav").hide();
+});
