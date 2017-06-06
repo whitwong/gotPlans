@@ -205,7 +205,7 @@ $(document).on("click", "#favesInBtn", function(){
     var newRow = 
         "<tr class='table-row' id='"+snapshot.key+"'>" + 
         "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
-        "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
+        "<td><a class='directions' href='"+link+" 'id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
         "<td id='ingredients-"+"'>" + ingredients + "</td>" +
         "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
         
@@ -260,7 +260,7 @@ $(document).on("click", "#favesOutBtn", function(){
     var newRow = 
         "<tr class='table-row' id='"+snapshot.key+"'>" + 
         "<td><img class='rest-image' id='restImg-" +"'src='" + restImage + "'>"+"</td>" +
-        "<td><a id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
+        "<td><a class='rest-overview' href='"+link+"'id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
         "<td id='price-"+"'>" + price + "</td>" +
         "<td id='rating-"+"'>" + rating + "</td>" +
         "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
@@ -738,7 +738,7 @@ $("#ingredient-submit").on("click", function(){
     yummly.callYummly();
 });
 //Click event to open recipe links. Reference site: http://befused.com/jquery/open-link-new-window
-$("#recipe-results").on("click", "a.directions", function(){
+$(document).on("click", "a.directions", function(){
     window.open(this.href);
 });
 
@@ -769,7 +769,7 @@ $("#option-results").on("click", ".sort-rating", function(){
     zomato.sortRating();
 });
 //Click event for Restaurant Overview selection
-$("#option-results").on("click", "a.rest-overview", function(){
+$(document).on("click", "a.rest-overview", function(){
     window.open(this.href);
 });
 
@@ -785,17 +785,9 @@ $("#either-divTwo").on("click", ".city-select", function(){
     cityId = $(this).attr("data-type");
     zomato.randomRestaurant(cityId);
 });
-//Click event to open recipe links
-$("#either-divTwo").on("click", "a.directions", function(){
-    window.open(this.href);
-});
 //Randomly generate another restaurant
 $("#either-divThree").on("click", ".reset", function() {
     zomato.randomRestaurant(cityId);
-});
-//Click event to open restaurant overview link
-$("#either-divThree").on("click", "a.rest-overview", function(){
-    window.open(this.href);
 });
 //Click event to reset random recipes
 $("#either-divTwo").on("click", "#resetRecipe", function() {
@@ -827,7 +819,7 @@ $("#favs").on("click", function(){
         var newRow = 
         "<tr class='table-row' id='"+snapshot.key+"'>" + 
         "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
-        "<td><a id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
+        "<td><a class='directions' href='"+link+" 'id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
         "<td id='ingredients-"+"'>" + ingredients + "</td>" +
         "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
         
@@ -857,7 +849,7 @@ $("#favs").on("click", function(){
         var newRow = 
             "<tr class='table-row' id='"+snapshot.key+"'>" + 
             "<td><img class='rest-image' id='restImg-" +"'src='" + restImage + "'>"+"</td>" +
-            "<td><a id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
+            "<td><a class='rest-overview' href='"+link+"' id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
             "<td id='price-"+"'>" + price + "</td>" +
             "<td id='rating-"+"'>" + rating + "</td>" +
             "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
