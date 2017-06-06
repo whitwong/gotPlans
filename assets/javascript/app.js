@@ -268,6 +268,7 @@ var zomato = {
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
+
                 optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[i].restaurant.price_range+"</td>");
@@ -303,6 +304,7 @@ var zomato = {
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
+
                 optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[i].restaurant.price_range+"</td>");
@@ -372,6 +374,7 @@ var zomato = {
             var results=response.restaurants;
             var randomRestaurantNumber = Math.floor(Math.random()*results.length);
                 var optionResults = $("<tr>");
+
                 optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[randomRestaurantNumber].restaurant.url+"''>"+results[randomRestaurantNumber].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[randomRestaurantNumber].restaurant.price_range+"</td>");
