@@ -268,6 +268,7 @@ var zomato = {
                 optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
+                optionResults.append("<td><button id='favesBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
             }
         });
@@ -298,6 +299,7 @@ var zomato = {
                 optionResults.append("<td><a class='rest-overview' href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
+                optionResults.append("<td><button id='favesBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
             }
         });
@@ -357,6 +359,7 @@ var zomato = {
                 optionResults.append("<td><a class='rest-overview' href='"+results[randomRestaurantNumber].restaurant.url+"''>"+results[randomRestaurantNumber].restaurant.name+"</a></td>");
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.price_range+"</td>");
                 optionResults.append("<td>"+results[randomRestaurantNumber].restaurant.user_rating.aggregate_rating+"</td>");
+                optionResults.append("<td><button id='favesBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
                 $("#either-divThree").append("<button class='reset chip waves-effect waves-light'>Choose Another Restaurant</button>")
         });   
