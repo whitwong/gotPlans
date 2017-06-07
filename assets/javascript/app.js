@@ -182,39 +182,6 @@ $(document).on("click", ".glyphicon-heart-empty", function(event) {
     }
 });
 
-//Show Favorite Recipes
-$(document).on("click", "#favesInBtn", function(){
-     event.preventDefault();
-    $("#recipe-results").empty();
-
-    var table = $("<table class=\"table result-table\">" +
-        "<tr>" +
-        "<th>" + "Image" + "</th>" +
-        "<th>" + "Recipe Name" + "</th>" +
-        "<th>" + "Ingredients" + "</th>" + "<th>" + "Favorite?" + "</th>" +
-        "</tr>" +
-        "</table>");
-
-    var user = firebase.auth().currentUser.uid;
-    database.ref("/users").child(user).child("recipe").on("child_added", function(snapshot){
-        var recipeImage=snapshot.val().img;
-        var recipeName=snapshot.val().recipe;
-        var link=snapshot.val().url;
-        var ingredients=snapshot.val().ingredients;
-
-    var newRow = 
-        "<tr class='table-row' id='"+snapshot.key+"'>" + 
-        "<td><img id='recImg-" +"'src='" + recipeImage + "'>"+"</td>" +
-        "<td><a class='directions' href='"+link+" 'id ='recipe-" + "'target='_blank'>" + recipeName + "</a></td>" +
-        "<td id='ingredients-"+"'>" + ingredients + "</td>" +
-        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
-        
-        table.append(newRow);
-
-        $("#recipe-results").append(table);
-
-    });
-});
 
 //Remove favorite recipes
 $(document).on("click", ".glyphicon-heart", function(event) {
@@ -233,43 +200,6 @@ database.ref("/users").on("child_changed", function(snapshot){
     $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
 });
 
-//Show Favorite Restaurants
-$(document).on("click", "#favesOutBtn", function(){
-     event.preventDefault();
-    $("#location-results").empty();
-    $("#cuisine-results").empty();
-    $("#option-results").empty();
-
-    var resultTable = $("<table class='table'>");
-
-    resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-        "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
-        "<th>Price Range </th>"+
-        "<th>Rating </th>"+
-        "<th>"+"Favorites"+"</th>"+
-        "</tr></thead>");
-
-    var user = firebase.auth().currentUser.uid;
-    database.ref("/users").child(user).child("restaurant").on("child_added", function(snapshot){
-        var restImage=snapshot.val().img;
-        var restName=snapshot.val().name;
-        var link=snapshot.val().url;
-        var price=snapshot.val().price;
-        var rating=snapshot.val().rating;
-
-    var newRow = 
-        "<tr class='table-row' id='"+snapshot.key+"'>" + 
-        "<td><img class='rest-image' id='restImg-" +"'src='" + restImage + "'>"+"</td>" +
-        "<td><a class='rest-overview' href='"+link+"'id ='rest-" + "'target='_blank'>" + restName + "</a></td>" +
-        "<td id='price-"+"'>" + price + "</td>" +
-        "<td id='rating-"+"'>" + rating + "</td>" +
-        "<td><button class='favesBtn glyphicon glyphicon-heart' data-key='"+snapshot.key+"'</button></td></tr>";
-        
-        resultTable.append(newRow);
-
-        $("#option-results").append(resultTable);
-    });
-});
 
 //Remove favorite restaurants
 $(document).on("click", ".glyphicon-heart", function(event) {
@@ -354,7 +284,7 @@ var zomato = {
                 $("#location-results").append(locationbtn);
                 $("#either-divTwo").append(locationbtnTwo);
             }
-            $("#location-results").append("<p>Select your location</p>");
+            $("#location-results").append("<p class='option'>Select your location</p>");
         });
     },
     //Function to dynamically create and display array items as cuisine buttons
@@ -381,7 +311,7 @@ var zomato = {
                 cuisineBtn.addClass("cuisine-select chip waves-effect waves-light");
                 $("#cuisine-results").append(cuisineBtn);
             }
-        $("#cuisine-results").append("<p>Select your cuisine</p>")
+        $("#cuisine-results").append("<p class='option'>Select your cuisine</p>")
     },
     //Function to make API request using city ID and cuisine ID. Results displayed as a table.
     filterCuisine: function(){
@@ -397,8 +327,8 @@ var zomato = {
             //Dynamically create table of restaurant results
             var resultTable = $("<table class='table'>");
 
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+            resultTable.append("<thead><tr><th>Image</th>"+
+                "<th>Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
                 "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th>"+
                 "<th>"+"Favorites"+"</th>"+
@@ -433,11 +363,11 @@ var zomato = {
             //Dynamically create table
             var resultTable = $("<table class='table'>");
 
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+            resultTable.append("<thead><tr><th>Image</th>"+
+                "<th>Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
                 "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th>"+
-                "<th>"+"Favorites"+"</th>"+
+                "<th>"+" Favorites"+"</th>"+
                 "</tr></thead>");
 
             resultTable.append("<tbody>");
@@ -470,11 +400,11 @@ var zomato = {
             //Dynamically create table
             var resultTable = $("<table class='table'>");
 
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+            resultTable.append("<thead><tr><th>Image</th>"+
+                "<th>Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
                 "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i>"+
-                "<th>"+"Favorites"+"</th>"+
+                "<th>"+" Favorites"+"</th>"+
                 "</th></tr></thead>");
 
             resultTable.append("<tbody>");
@@ -504,8 +434,8 @@ var zomato = {
             //Dynamically create table
             var resultTable = $("<table class='table'>");
 
-            resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-                "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+            resultTable.append("<thead><tr><th>Image</th>"+
+                "<th>Restaurant</th>"+
                 "<th>Price Range </th>"+
                 "<th>Rating </th>"+
                 "<th>"+"Favorites"+"</th>"+
@@ -621,7 +551,8 @@ var yummly = {
                 "<tr>" +
                 "<th>" + "Image" + "</th>" +
                 "<th>" + "Recipe Name" + "</th>" +
-                "<th>" + "Ingredients" + "</th>" + "<th>" + "Favorite?" + "</th>" +
+                "<th>" + "Ingredients" + "</th>" + 
+                "<th>" + "Favorites" + "</th>" +
                 "</tr>" +
                 "</table>");
 
@@ -805,7 +736,7 @@ $("#favs").on("click", function(){
         "<th>" + "Image" + "</th>" +
         "<th>" + "Recipe Name" + "</th>" +
         "<th>" + "Ingredients" + "</th>" + 
-        "<th>" + "Favorite?" + "</th>" +
+        "<th>" + "Favorites" + "</th>" +
         "</tr>" +
         "</table>");
 
@@ -831,10 +762,10 @@ $("#favs").on("click", function(){
     //Dynamically create table for restaurants stored in firebase
     var resultTable = $("<table class='table'>");
 
-    resultTable.append("<thead><tr><th><i class='glyphicon glyphicon-camera'></i> Image</th>"+
-        "<th><i class='glyphicon glyphicon-cutlery'></i> Restaurant</th>"+
+    resultTable.append("<thead><tr><th>Image</th>"+
+        "<th>Restaurant</th>"+
         "<th>Price Range </th>"+
-        "<th>Rating </th>"+
+        "<th>Rating</th>"+
         "<th>"+"Favorites"+"</th>"+
         "</tr></thead>");
 
