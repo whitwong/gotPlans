@@ -245,12 +245,12 @@ var zomato = {
 
         if (randomNumber === 0) {
             $("either-div").empty();
-            $("#either-div").append("<h3 class='option'>Eat Out!</h3>");
+            $("#either-div").append("<p class='option'>Eat Out!</p>");
             zomato.queryCity(cityName);
 
         } else {
             $("either-div").empty();
-            $("#either-div").append("<h3 class='option'>Stay In!</h3>");
+            $("#either-div").append("<p class='option'>Stay In!</p>");
             yummly.randomRecipe();
         }
     },
