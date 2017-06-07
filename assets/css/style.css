@@ -219,7 +219,7 @@ form.zip-form {
 .input-field label {
   color: white;
 }
-input[type=text] {
+input[type=text], input[type=password] {
     color: #ffffff;
     text-align: center;
     font-size: 2rem;
