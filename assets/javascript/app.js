@@ -91,7 +91,6 @@ var dataMethods = {
 $(document).on("click", ".glyphicon-heart-empty", function(event) {
     event.preventDefault();
     var state=$(this).attr("class");
-    console.log(state)
 
     if (state.includes("inFave")){
         $(this).removeClass("glyphicon glyphicon-heart-empty");
@@ -340,7 +339,13 @@ var zomato = {
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
 
-                optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
+                //Condition to handle when no image is available
+                if (results[i].restaurant.thumb !== "") {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
+                } else {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='assets/images/no_image_placeholder.png'></td>"); 
+                }
+                
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td id='restRating-"+i+"'>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
@@ -377,7 +382,13 @@ var zomato = {
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
 
-                optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
+                //Condition to handle when no image is available
+                if (results[i].restaurant.thumb !== "") {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
+                } else {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='assets/images/no_image_placeholder.png'></td>"); 
+                }
+
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td id='restRating-"+i+"'>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
@@ -413,7 +424,14 @@ var zomato = {
             var results=response.restaurants;
             for (var i=0; i<results.length; i++){
                 var optionResults = $("<tr>");
-                optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
+
+                //Condition to handle when no image is available
+                if (results[i].restaurant.thumb !== "") {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='"+results[i].restaurant.thumb+"'></td>"); 
+                } else {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+i+"'src='assets/images/no_image_placeholder.png'></td>"); 
+                }
+
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td id='restRating-"+i+"'>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
@@ -449,7 +467,13 @@ var zomato = {
             var randomRestaurantNumber = Math.floor(Math.random()*results.length);
                 var optionResults = $("<tr>");
 
-                optionResults.append("<td><img class='rest-image' id='restImg-"+0+"'src='"+results[randomRestaurantNumber].restaurant.thumb+"'></td>"); 
+                //Condition to handle when no image is available
+                if (results[randomRestaurantNumber].restaurant.thumb !== "") {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+0+"'src='"+results[randomRestaurantNumber].restaurant.thumb+"'></td>"); 
+                } else {
+                    optionResults.append("<td><img class='rest-image' id='restImg-"+0+"'src='assets/images/no_image_placeholder.png'></td>"); 
+                }
+
                 optionResults.append("<td><a class='rest-overview' id='restName-"+0+"'href='"+results[randomRestaurantNumber].restaurant.url+"''>"+results[randomRestaurantNumber].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+0+"'>"+results[randomRestaurantNumber].restaurant.price_range+"</td>");
                 optionResults.append("<td id='restRating-"+0+"'>"+results[randomRestaurantNumber].restaurant.user_rating.aggregate_rating+"</td>");
@@ -488,7 +512,7 @@ var yummly = {
     getRecipeLink: function() {
         for (var i = 0; i < yummlyMatches.length; i ++) {
             (function(i) {
-                var queryUrl = "http://api.yummly.com/v1/api/recipe/"+ encodeURIComponent(yummlyMatches[i].id) + "?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25";
+                var queryUrl = "https://api.yummly.com/v1/api/recipe/"+ encodeURIComponent(yummlyMatches[i].id) + "?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25";
                 $.ajax({
                     url: queryUrl,
                     method: "GET"
@@ -502,7 +526,7 @@ var yummly = {
     //Function that makes API request to Yummly based on user input for ingredient
     callYummly: function() {
         var queryItem = $("#ingredient-input").val().trim().toLowerCase();
-        var queryUrl = "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=";
+        var queryUrl = "https://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=";
         $.ajax({
             url: queryUrl + encodeURIComponent(queryItem),
             method: "GET"
@@ -522,7 +546,7 @@ var yummly = {
 
             for (var i=0; i < result.length;i++){
 
-                var recipeId="http://www.yummly.com/recipe/" + result[i].id;
+                var recipeId="https://www.yummly.com/recipe/" + result[i].id;
                 var recipeName=result[i].recipeName;
                 var recipeImage=result[i].smallImageUrls[0];
                 var ingredients=result[i].ingredients;
@@ -546,7 +570,7 @@ var yummly = {
         $("#either-divTwo").empty();
         $("#either-divThree").empty();
         $.ajax({
-            url: "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=" + encodeURIComponent(randomIngredient),
+            url: "https://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=" + encodeURIComponent(randomIngredient),
             method: "GET"
         }).done(function(response){
             var result=response.matches;
@@ -565,7 +589,7 @@ var yummly = {
             $("#either-divTwo").append("<h4 class='option'>Try one of these recipes!</h4>");
             for (var i=0; i < result.length; i++){
 
-                var recipeId="http://www.yummly.com/recipe/" + result[i].id;
+                var recipeId="https://www.yummly.com/recipe/" + result[i].id;
                 var recipeName=result[i].recipeName;
                 var recipeImage=result[i].smallImageUrls[0];
                 var ingredients=result[i].ingredients;
