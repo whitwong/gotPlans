@@ -535,7 +535,7 @@ var yummly = {
     },
     //Pick a random ingredient from array to make ajax call. Display results in a table.
     randomRecipe: function(){
-        var ingredients = ["chicken", "avocado", "lobster", "crab", "strawberry", "ice cream", "cool whip", "peanut butter", "quail", "garlic", "chili powder", "thyme", "mustard", "bacon", "chia", "ketchup", "pasta", "butter", "tomato", "feta", "olives", "lettuce", "apple", "milk", "carrot", "cracker", "steak", "salmon", "turkey", "tofu", "sour cream", "eggs", "spinach", "cheddar cheese", "almonds", "onion", "green beans", "squash", "potato", "cauliflower", "broth", "mushrooms", "salsa", "hashbrowns", "bread", "raisins", "quinoa", "brown rice", "bell pepper", "banana", "bok choy", "soy sauce", "tortilla chips"];
+        var ingredients = ["chicken", "avocado", "lobster", "crab", "strawberry", "ice cream", "cool whip", "peanut butter", "quail", "garlic", "chili powder", "thyme", "mustard", "bacon", "ketchup", "pasta", "butter", "tomato", "feta", "olives", "lettuce", "apple", "milk", "carrot", "cracker", "steak", "salmon", "turkey", "tofu", "sour cream", "eggs", "spinach", "cheddar cheese", "almonds", "onion", "green beans", "squash", "potatoes", "cauliflower", "broth", "mushrooms", "salsa", "hashbrowns", "bread", "raisins", "quinoa", "brown rice", "bell pepper", "banana", "bok choy", "soy sauce", "tortilla chips"];
 
         var randomIngredient = ingredients[Math.floor(Math.random() * ingredients.length)];
         $("#either-divTwo").empty();
