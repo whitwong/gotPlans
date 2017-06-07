@@ -536,14 +536,18 @@ var zomato = {
         var price= $("#restPrice-"+ num).text();
         var rating =$("#restRating-"+ num).text();
 
-        database.ref("/users").child(user).child("restaurant").push({
+        var postData = {
             uid: user,
             img: pic,
             name: name,
             url: link,
             price: price,
             rating: rating
-        });
+        }
+
+        var postKey = database.ref("/users").child(user).child("recipe").push(postData).key;
+
+        $("#favesOutBtnId-" + num).attr("data-key", postKey);
     }
 }
 
@@ -654,13 +658,17 @@ var yummly = {
         var name = $("#recipe-" + num).text();
         var materials=$("#ingredients-"+ num).text();
 
-        database.ref("/users").child(user).child("recipe").push({
+        var postData = {
             uid: user,
             recipe: name,
             url: link,
             ingredients: materials,
             img: pic
-        });
+        }
+
+        var postKey = database.ref("/users").child(user).child("recipe").push(postData).key;
+
+        $("#favesBtnId-" + num).attr("data-key", postKey);
     }
 }
 
