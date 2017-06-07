@@ -677,14 +677,14 @@ $("#modal2").on("click", ".closeModal2", function(){
 $("#in").on("click", function(){
     event.preventDefault();
     userSelect=$(this).attr("id");
-    $("#out, #either").css("visibility", "hidden");
+    $("#out, #either").hide();
     chooseBox();
 });
 //Initial click event to load option Eat-Out
 $("#out").on("click", function(){
     event.preventDefault();
     userSelect=$(this).attr("id");
-    $("#in, #either").css("visibility", "hidden");
+    $("#in, #either").hide();
     $("#out").css("overflow", "auto");
     chooseBox();
 });
@@ -692,7 +692,7 @@ $("#out").on("click", function(){
 $("#either").on("click", function(){
     event.preventDefault();
     userSelect=$(this).attr("id");
-    $("#out, #in").css("visibility", "hidden");
+    $("#out, #in").hide();
     chooseBox();
 });
 
