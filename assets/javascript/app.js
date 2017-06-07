@@ -475,7 +475,7 @@ var zomato = {
             rating: rating
         }
 
-        var postKey = database.ref("/users").child(user).child("recipe").push(postData).key;
+        var postKey = database.ref("/users").child(user).child("restaurant").push(postData).key;
 
         $("#favesOutBtnId-" + num).attr("data-key", postKey);
     }
