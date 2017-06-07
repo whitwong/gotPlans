@@ -572,7 +572,7 @@ var yummly = {
                     "<td><img id='recImg-"+ i +"'src='" + recipeImage + "'>"+"</td>" +
                     "<td><a id ='recipe-" + i + "'target='_blank'>" + recipeName + "</a></td>" +
                     "<td id='ingredients-"+i+"'>" + ingredients + "</td>" +
-                    "<td><button id='favesBtnId-" + i + "'class='favesBtn inFave glyphicon glyphicon-heart-empty'></button></a></td></tr>";
+                    "<td><button id='favesBtnId-" + i + "'class='favesBtn inFave glyphicon glyphicon-heart-empty'></button></td></tr>";
                 table.append(newRow);
             }
             $("#either-divTwo").append(table);
