@@ -424,6 +424,7 @@ var zomato = {
     },
     //Pick a random restaurant from an ajax call based on cityId
     randomRestaurant: function(cityId){
+        $("#either-divTwo").empty();
         $("#either-divThree").empty();
         randomQueryURL = "https://developers.zomato.com/api/v2.1/search?entity_id="+cityId+"&entity_type=city&apikey="+apiKey;
         //Ajax request for restaurant data
@@ -543,6 +544,7 @@ var yummly = {
 
         var randomIngredient = ingredients[Math.floor(Math.random() * ingredients.length)];
         $("#either-divTwo").empty();
+        $("#either-divThree").empty();
         $.ajax({
             url: "http://api.yummly.com/v1/api/recipes?_app_id=804bf8b9&_app_key=41611fa0ed256dc5c5378bdf87593e25&allowedIngredient[]=" + encodeURIComponent(randomIngredient),
             method: "GET"
