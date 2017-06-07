@@ -63,7 +63,11 @@ a:hover {
     background:black;
     padding:15px;
     margin-top: -300px;
-    width:100%;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
     height:100%;
     z-index: 10;
     overflow: hidden;
@@ -219,6 +223,10 @@ input[type=text] {
     color: #ffffff;
     text-align: center;
     font-size: 2rem;
+}
+
+.container{
+  width:50%;
 }
 .chip {
     border: none;
