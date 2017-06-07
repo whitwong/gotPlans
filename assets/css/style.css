@@ -260,3 +260,66 @@ input[type=text], input[type=password] {
 #welcome {
     display: none;
 }
+
+@media screen and (max-width: 1055px) {
+
+    #in, #out, #either {
+    width: 180px;;
+  }
+
+    h1{
+    font-family: 'Convergence', sans-serif;
+    text-align: center;
+    font-size: 5em;
+    color: white;
+    margin-top: 05px;
+    padding: 10px;
+  }
+
+    h2{
+     margin-top: 110px;
+     letter-spacing: 3px;
+     font-size: 3em;
+     font-family: 'Passion One', cursive;
+     color:white;
+
+  }
+    
+    .subhead{
+    font-family: 'Josefin Sans', sans-serif;
+    text-align: center;
+    font-size: 2.5em;
+    color: white;
+    letter-spacing: 14px;
+    margin-top: -50px;
+    }
+
+
+
+@media screen and (max-width: 915px){
+    #in, #out, #either {
+    display: block;
+    width: 180px;
+    height: 180px;
+    text-align: center;
+    margin-left: 40%;
+    margin-top: 20px;
+    background-color: #53db50;
+    border-radius: 10px;
+    overflow: hidden;
+    position:static;
+}
+
+
+    h2{
+
+    margin-top: 55px;
+    letter-spacing: 3px;
+    font-size: 3em;
+    font-family: 'Passion One', cursive;
+    color: white;
+
+    }
+
+
+}
