@@ -196,7 +196,7 @@ $(document).on("click", ".glyphicon-heart", function(event) {
     database.ref("/users").child(user).child("recipe").child(dataKey).remove();
 });
 //Code to remove recipe favorites from page
-database.ref("/users").on("child_changed", function(snapshot){
+database.ref("/users").on("child_removed", function(snapshot){
     $("#"+snapshot.child("/users/"+""+user+"/"+dataKey+"").key).remove();
 });
 
