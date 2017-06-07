@@ -302,7 +302,8 @@ input[type=text], input[type=password] {
     width: 180px;
     height: 180px;
     text-align: center;
-    margin-left: 40%px;
+
+    margin-left: 40%;
     margin-top: 20px;
     background-color: #53db50;
     border-radius: 10px;
