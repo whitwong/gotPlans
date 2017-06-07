@@ -367,7 +367,7 @@ var zomato = {
                 "<th>Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
                 "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th>"+
-                "<th>"+" Favorite"+"</th>"+
+                "<th>"+" Favorites"+"</th>"+
                 "</tr></thead>");
 
             resultTable.append("<tbody>");
