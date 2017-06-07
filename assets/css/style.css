@@ -264,7 +264,7 @@ input[type=text], input[type=password] {
 @media screen and (max-width: 1055px) {
 
     #in, #out, #either {
-    width: 180px;;
+    width: 180px;
   }
 
     h1{
@@ -302,8 +302,7 @@ input[type=text], input[type=password] {
     width: 180px;
     height: 180px;
     text-align: center;
-
-    margin-left: 40%;
+    margin: 0 auto;
     margin-top: 20px;
     background-color: #53db50;
     border-radius: 10px;
