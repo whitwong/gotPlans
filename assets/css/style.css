@@ -139,6 +139,16 @@ input {
     cursor:pointer;
 }
 
+.favesBtn{
+  background: rgba(255,255,255,0);
+  border:none;
+  font-size: 1.5em;
+}
+
+.favesBtn:focus{
+  background: rgba(255,255,255,0);
+}
+
  h2 {
     margin-top: 110px;
      letter-spacing: 3px;
