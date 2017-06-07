@@ -15,6 +15,19 @@ body {
      margin-top: -30px; 
      
  }
+
+a.directions {
+  color: #53db50;
+  font-weight: bold;
+
+}
+
+a.rest-overview {
+  color: #53db50;
+  font-weight: bold;
+
+}
+
 a:hover {
     text-decoration:none;
 }
@@ -159,7 +172,7 @@ form.zip-form {
     width: 95%;
     margin: 20px auto;
     text-align: left;
-    background: rgba(255,255,255,0.7);
+    background: #f5f5f5;
     color: black;
     border-radius: 10px;
 }
