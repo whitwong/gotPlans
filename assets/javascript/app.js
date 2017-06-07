@@ -363,7 +363,7 @@ var zomato = {
             //Dynamically create table
             var resultTable = $("<table class='table'>");
 
-            resultTable.append("<thead><tr><th>mage</th>"+
+            resultTable.append("<thead><tr><th>Image</th>"+
                 "<th>Restaurant</th>"+
                 "<th>Price Range <i class='glyphicon glyphicon-triangle-bottom sort-price'></i></th>"+
                 "<th>Rating <i class='glyphicon glyphicon-triangle-bottom sort-rating'></i></th>"+
