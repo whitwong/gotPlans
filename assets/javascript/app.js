@@ -768,14 +768,14 @@ $("#favs").on("click", function(){
     });
 
     //Dynamically create table for restaurants stored in firebase
-    var resultTable = $("<table class='table'>");
-
-    resultTable.append("<thead><tr><th>Image</th>"+
+       var resultTable = $("<table class='table'>"+
+        "<tr><th>Image</th>"+
         "<th>Restaurant</th>"+
         "<th>Price Range </th>"+
         "<th>Rating</th>"+
         "<th>"+"Favorites"+"</th>"+
-        "</tr></thead>");
+        "</tr>");
+
 
     var user = firebase.auth().currentUser.uid;
     database.ref("/users").child(user).child("restaurant").on("child_added", function(snapshot){
