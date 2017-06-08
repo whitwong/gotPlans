@@ -743,7 +743,14 @@ $(document).on("click", "a.rest-overview", function(){
 $("#zip-submit").on("click", function() {
     event.preventDefault();
     cityName = $("#zip-input").val().trim();
+    if (cityName === "") {
+        $("#either-div").empty();
+        $("#either-div").append("<p class='option'>Enter a city!</p>");
+    } else {
+    $("#either-div").empty();
+    console.log(cityName);
     zomato.coinFlip();
+    }
 });
 //City selection
 $("#either-divTwo").on("click", ".city-select", function(){
