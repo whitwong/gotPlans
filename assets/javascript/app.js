@@ -678,6 +678,7 @@ $("#in").on("click", function(){
     event.preventDefault();
     userSelect=$(this).attr("id");
     $("#out, #either").hide();
+    $("#in").css("overflow", "auto");
     chooseBox();
 });
 //Initial click event to load option Eat-Out
@@ -693,6 +694,7 @@ $("#either").on("click", function(){
     event.preventDefault();
     userSelect=$(this).attr("id");
     $("#out, #in").hide();
+    $("#either").css("overflow", "auto");
     chooseBox();
 });
 
