@@ -392,7 +392,7 @@ var zomato = {
                 optionResults.append("<td><a class='rest-overview' id='restName-"+i+"'href='"+results[i].restaurant.url+"'>"+results[i].restaurant.name+"</a></td>");
                 optionResults.append("<td id='restPrice-"+i+"'>"+results[i].restaurant.price_range+"</td>");
                 optionResults.append("<td id='restRating-"+i+"'>"+results[i].restaurant.user_rating.aggregate_rating+"</td>");
-                optionResults.append("<td><button id='favesOutBtnId-" + i + "'class='favesBtn glyphicon glyphicon-heart-empty'></button></td>")
+                optionResults.append("<td><button id='favesOutBtnId-" + i + "'class='favesBtn outFave glyphicon glyphicon-heart-empty'></button></td>")
                 resultTable.append(optionResults);
             }
         });
